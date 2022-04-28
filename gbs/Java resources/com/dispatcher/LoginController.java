@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class AddController {
-	@RequestMapping("/add")
-	public ModelAndView add(HttpServletRequest request, HttpServletResponse responde ) {
-		int i = Integer.parseInt(request.getParameter("t1"));
-		int j = Integer.parseInt(request.getParameter("t2"));
-		int r = i+j;
+public class LoginController {
+	@RequestMapping("/login")
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse responde ) {
+		System.out.println("ESTOY EN EL CONTROLADOR DE LOGIN");
+		int email = Integer.parseInt(request.getParameter("email"));
+		int password = Integer.parseInt(request.getParameter("password"));
+		int r = 5555;
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home.jsp");
@@ -23,4 +24,3 @@ public class AddController {
 		return mv;
 	}
 }
-

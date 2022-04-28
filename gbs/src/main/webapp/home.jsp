@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1" isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,27 +13,9 @@
 <body>
 YOU ARE IN HOME FINALLY
 <h2 class="text-primary">Welcome to employment system</h2>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      Column
-    </div>
-    <div class="col">
-      Column
-    </div>
-    <div class="col">
-      Column
-    </div>
-  </div>
-</div>
 
-<div class="form-floating mb-3">
-  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-  <label for="floatingInput">Email address</label>
-</div>
-<div class="form-floating">
-  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-  <label for="floatingPassword">Password</label>
-</div>
+Result is : <%= request.getAttribute("result") %>
+Also is : ${result}
+
 </body>
 </html>
