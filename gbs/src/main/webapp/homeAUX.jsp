@@ -65,7 +65,7 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:211px">
-			<p id="title-page">Employees : <%= request.getAttribute("result") %>
+			<p id="title-page">Add Employee Result is : <%= request.getAttribute("result") %>
 				Also is : ${result}</p>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -84,37 +84,54 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <table class="table">
-				  <thead>
-				    <tr>
-				      <th scope="col">UID</th>
-				      <th scope="col">First Name</th>
-				      <th scope="col">Middle Name</th>
-				      <th scope="col">Last Name</th>
-				      <th scope="col">Birth Date</th>
-				      <th scope="col">Position</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td colspan="2">Larry the Bird</td>
-				      <td>@twitter</td>
-				    </tr>
-				  </tbody>
-				</table>
+			    <form>
+			    	<div class="row">
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="firstNameInput" class="form-label">First Name *</label>
+							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
+				    			<div id="firstNameHelp" class="form-text">We'll never share your email with anyone else.</div>
+				  			</div>
+			    		</div>
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="middleNameInput" class="form-label">Middle Name</label>
+							    <input type="text" name="middleName" class="form-control" id="middleNameInput" aria-describedby="middleNameHelp">
+				  			</div>
+			    		</div>
+			    	</div>
+			    	
+			    	<div class="row">
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="lastNameInput" class="form-label">Last Name *</label>
+							    <input type="text" name="lastName" class="form-control" id="lastNameInput" required aria-describedby="lastNameHelp">
+				    			<div id="lastNameHelp" class="form-text">We'll never share your email with anyone else.</div>
+				  			</div>
+			    		</div>
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="birthDateInput" class="form-label">Birth Date *</label>
+							    <input type="date" name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp">
+							    <div id="birthDateHelp" class="form-text">We'll never share your email with anyone else.</div>
+				  			</div>
+			    		</div>
+			    	</div>
+			    	<div class="row">
+			    		<div class="col-6">
+			    			<div class="mb-3">
+							    <label for="positionInpur" class="form-label">Position *</label>
+							    <select class="form-select" id="positionInpur" name="position" required>
+								  <option selected>Part-time</option>
+								  <option value="1">Full-time</option>
+								  <option value="2">Seasonal </option>
+								  <option value="3">Admin</option>
+								</select>
+				  			</div>
+			    		</div>
+			    	</div>
+				  <button type="submit" class="btn btn-primary btn-form mt-3 mb-3">Submit</button>
+				</form>
 			  </div>
 			</div>
 		</div>
