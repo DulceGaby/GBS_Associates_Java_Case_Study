@@ -70,70 +70,69 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:313px">
-			<p id="title-page">Compensation Breakdown for : Jonh Smith :  <%= request.getAttribute("result") %>
-			${result}
-			</p>
-			<p>January / 2022</p>
+			<p id="title-page">Compensation History : Jonh Smith : <%= request.getAttribute("result") %>
+				  ${result}</p>
 			
 			<div class="card">
-			  <div class="card-body">			    
+			  <div class="card-body">
+			    
+			    <form>
+				    <div class="row mb-4 form-search">
+				    	
+				    	<div class="col-2">
+				    		<div class="form-floating">
+							  <input type="date" class="form-control" id="floatingInput1" name="start-date">
+							  <label for="floatingInput1">Start date</label>
+							</div>
+				    	</div>
+				    	<div class="col-2">
+				    		<div class="form-floating">
+							  <input type="date" class="form-control" id="floatingInput2" name="end-date">
+							  <label for="floatingInput2">End date</label>
+							</div>
+				    	</div>
+				    	<div class="col-1">
+				    		<button type="submit" class="btn btn-primary btn-form">Submit</button>
+				    	</div>
+				    </div>
+			    </form>
+			    
 			    
 			    <table class="table">
 				  <thead>
 				    <tr>
 				      <th scope="col"></th>
-				      <th scope="col">Date</th>
-				      <th scope="col">Type</th>
-				      <th scope="col">Amount</th>
-				      <th scope="col">Description</th>
+				      <th scope="col">Month / Year</th>
+				      <th scope="col">Total</th>
 				    </tr>
 				  </thead>
 				  <tbody>
 				    <tr>
 				      <td scope="row">
 				      	<a>
-					      	<button type="button" class="btn btn-primary btn-form font-10">EDIT</button>
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>
-				      <td>25 / January / 2022</td>
-				      <td>Salary</td>
+				      <td>January / 2022</td>
 				      <td>$ 10023.00</td>
-				      <td>
-				      	<span class="d-inline-block text-truncate" style="max-width: 800px;">
-						  lorem ipsum dolor sit amet consectetur adipiscing elit jhs sajkd ksjd kjdha sdjasdkasjd ksdhksahd kasjd awekuwgkjgd mnmnc jkshkahdf sakjfha akfh 
-					      ton Thanks giving this use case. Can you give me little idea about what you are doing.Always I can help you out. Please provide little runnable code or 
-					      fiddle. You can have form Submit level validation for in your code. Althoug
-					     </span>
-					 </td>
 				    </tr>
 				    <tr>
 				      <td scope="row">
 				      	<a>
-					      	<button type="button" class="btn btn-primary btn-form font-10">EDIT</button>
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>
-				      <td>25 / January / 2022</td>
-				      <td>Salary</td>
+				      <td>January / 2022</td>
 				      <td>$ 10023.00</td>
-				      <td>lorem ipsum dolor sit amet consectetur adipiscing elit</td>
 				    </tr>
 				    <tr>
 				      <td scope="row">
 				      	<a>
-					      	<button type="button" class="btn btn-primary btn-form font-10">EDIT</button>
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>
-				      <td>25 / January / 2022</td>
-				      <td>Salary</td>
+				      <td>January / 2022</td>
 				      <td>$ 10023.00</td>
-				      <td>lorem ipsum dolor sit amet consectetur adipiscing elit</td>
-				    </tr>
-				    <tr>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td><b>Total: $57654.00</b></td>
-				    <td></td>
 				    </tr>
 				  </tbody>
 				</table>
