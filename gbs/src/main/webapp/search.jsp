@@ -46,7 +46,7 @@
 	
 		<nav class="navbar navbar-expand-lg" style="background-color:#a7bee4">
 		  <div class="container-fluid">
-		  	<img class="img-header" src="https://scontent.fmlm1-1.fna.fbcdn.net/v/t39.30808-6/279466520_5382950738396062_8478591622979059030_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=k9ilTwYh0-wAX9wm8SP&_nc_ht=scontent.fmlm1-1.fna&oh=00_AT8K_HwcAXCx4PIUa8aycMFin75ECwKXngunv_I55b-DGg&oe=6270E90D">
+		  	<img class="img-header" src="https://scontent.fmlm1-1.fna.fbcdn.net/v/t39.30808-6/279466520_5382950738396062_8478591622979059030_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeE5AAe_o9m4hJBZ76PXhVDA4cw4AuNRBo_hzDgC41EGjzMp18wi6OVMgi0SHAcmOvgBRRevgCljuQ7cSuNU9y0Y&_nc_ohc=GymDisod7FwAX_k6Z6g&_nc_ht=scontent.fmlm1-1.fna&oh=00_AT_QnMOLlhogqG83WuR9ZDH96OFXwWWhH4bZWQkJwK79_A&oe=6278D20D">
 		
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -62,7 +62,7 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:211px">
-			<p id="title-page">Add Employee Result is : <%= request.getAttribute("result") %>
+			<p id="title-page">Employees : <%= request.getAttribute("result") %>
 				Also is : ${result}</p>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -81,54 +81,37 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form>
-			    	<div class="row">
-			    		<div class="col">
-			    			<div class="mb-3">
-							    <label for="firstNameInput" class="form-label">First Name *</label>
-							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
-				    			<div id="firstNameHelp" class="form-text">Text for help.</div>
-				  			</div>
-			    		</div>
-			    		<div class="col">
-			    			<div class="mb-3">
-							    <label for="middleNameInput" class="form-label">Middle Name</label>
-							    <input type="text" name="middleName" class="form-control" id="middleNameInput" aria-describedby="middleNameHelp">
-				  			</div>
-			    		</div>
-			    	</div>
-			    	
-			    	<div class="row">
-			    		<div class="col">
-			    			<div class="mb-3">
-							    <label for="lastNameInput" class="form-label">Last Name *</label>
-							    <input type="text" name="lastName" class="form-control" id="lastNameInput" required aria-describedby="lastNameHelp">
-				    			<div id="lastNameHelp" class="form-text">Text for help.</div>
-				  			</div>
-			    		</div>
-			    		<div class="col">
-			    			<div class="mb-3">
-							    <label for="birthDateInput" class="form-label">Birth Date *</label>
-							    <input type="date" name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp">
-							    <div id="birthDateHelp" class="form-text">Text for help.</div>
-				  			</div>
-			    		</div>
-			    	</div>
-			    	<div class="row">
-			    		<div class="col-6">
-			    			<div class="mb-3">
-							    <label for="positionInput" class="form-label">Position *</label>
-							    <select class="form-select" id="positionInput" name="position" required>
-								  <option selected>Part-time</option>
-								  <option value="1">Full-time</option>
-								  <option value="2">Seasonal </option>
-								  <option value="3">Admin</option>
-								</select>
-				  			</div>
-			    		</div>
-			    	</div>
-				  <button type="submit" class="btn btn-primary btn-form mt-3 mb-3">Submit</button>
-				</form>
+			    <table class="table">
+				  <thead>
+				    <tr>
+				      <th scope="col">UID</th>
+				      <th scope="col">First Name</th>
+				      <th scope="col">Middle Name</th>
+				      <th scope="col">Last Name</th>
+				      <th scope="col">Birth Date</th>
+				      <th scope="col">Position</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <th scope="row">1</th>
+				      <td>Mark</td>
+				      <td>Otto</td>
+				      <td>@mdo</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">2</th>
+				      <td>Jacob</td>
+				      <td>Thornton</td>
+				      <td>@fat</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">3</th>
+				      <td colspan="2">Larry the Bird</td>
+				      <td>@twitter</td>
+				    </tr>
+				  </tbody>
+				</table>
 			  </div>
 			</div>
 		</div>

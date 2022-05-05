@@ -46,7 +46,7 @@
 	
 		<nav class="navbar navbar-expand-lg" style="background-color:#a7bee4">
 		  <div class="container-fluid">
-		  	<img class="img-header" src="https://scontent.fmlm1-1.fna.fbcdn.net/v/t39.30808-6/279466520_5382950738396062_8478591622979059030_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=k9ilTwYh0-wAX9wm8SP&_nc_ht=scontent.fmlm1-1.fna&oh=00_AT8K_HwcAXCx4PIUa8aycMFin75ECwKXngunv_I55b-DGg&oe=6270E90D">
+		  	<img class="img-header" src="https://scontent.fmlm1-1.fna.fbcdn.net/v/t39.30808-6/279466520_5382950738396062_8478591622979059030_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeE5AAe_o9m4hJBZ76PXhVDA4cw4AuNRBo_hzDgC41EGjzMp18wi6OVMgi0SHAcmOvgBRRevgCljuQ7cSuNU9y0Y&_nc_ohc=GymDisod7FwAX_k6Z6g&_nc_ht=scontent.fmlm1-1.fna&oh=00_AT_QnMOLlhogqG83WuR9ZDH96OFXwWWhH4bZWQkJwK79_A&oe=6278D20D">
 		
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -56,16 +56,13 @@
 		        <li class="nav-item">
 		          <a class="nav-link text-op-header" href="#">Search Employees</a>
 		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="#">Compensation History</a>
-		        </li>
 		      </ul>
 		    </div>
 		  </div>
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:211px">
-			<p id="title-page">Employees : <%= request.getAttribute("result") %>
+			<p id="title-page">Add Employee Compensation Details Result is : <%= request.getAttribute("result") %>
 				Also is : ${result}</p>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -84,37 +81,49 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <table class="table">
-				  <thead>
-				    <tr>
-				      <th scope="col">UID</th>
-				      <th scope="col">First Name</th>
-				      <th scope="col">Middle Name</th>
-				      <th scope="col">Last Name</th>
-				      <th scope="col">Birth Date</th>
-				      <th scope="col">Position</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td colspan="2">Larry the Bird</td>
-				      <td>@twitter</td>
-				    </tr>
-				  </tbody>
-				</table>
+			    <form>
+			    	<div class="row">
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="typeInput" class="form-label">Type *</label>
+							    <select class="form-select" id="typeInput" name="type" required>
+								  <option selected>Salary</option>
+								  <option value="1">Bonus</option>
+								  <option value="2">Commission </option>
+								  <option value="3">Allowance</option>
+								  <option value="3">Adjustment</option>
+								</select>
+				  			</div>
+			    		</div>
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="amountInput" class="form-label">Amount *</label>
+							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp">
+				    			<div id="amountHelp" class="form-text">Text for help.</div>
+				  			</div>
+			    		</div>
+			    	</div>
+			    	<div class="row">
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="descriptionInput" class="form-label">Description</label>
+							    <input type="text" name="description" class="form-control" id="descriptionInput" aria-describedby="descriptionHelp">
+				  			</div>
+			    		</div>
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="DateInput" class="form-label">Date *</label>
+							    <input type="date" name="date" class="form-control" id="DateInput" required aria-describedby="DateHelp">
+							    <div id="DateHelp" class="form-text">Text for help.</div>
+				  			</div>
+			    		</div>
+			    	</div>
+			    	
+			    	
+			    	
+				  <a href="#" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
+				  <button type="submit" class="btn btn-primary btn-form mt-3 mb-3">Submit</button>
+				</form>
 			  </div>
 			</div>
 		</div>
