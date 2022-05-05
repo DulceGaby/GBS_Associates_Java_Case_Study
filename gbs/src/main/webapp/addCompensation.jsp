@@ -62,7 +62,7 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:297px">
-			<p id="title-page">Edit Employee Compensation Details Result is : <%= request.getAttribute("result") %>
+			<p id="title-page">Add Employee Compensation Details Result is : <%= request.getAttribute("result") %>
 				Also is : ${result}</p>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -86,14 +86,13 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="typeInput" class="form-label">Type *</label>
-							    <select class="form-select" id="typeInput" name="type" required disabled>
+							    <select class="form-select" id="typeInput" name="type" required>
 								  <option selected>Salary</option>
 								  <option value="1">Bonus</option>
 								  <option value="2">Commission </option>
 								  <option value="3">Allowance</option>
 								  <option value="3">Adjustment</option>
 								</select>
-								<div id="typeHelp" class="form-text">Type cannot be edited.</div>
 				  			</div>
 			    		</div>
 			    		<div class="col">
@@ -114,8 +113,8 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="dateInput" class="form-label">Date *</label>
-							    <input type="date" name="date" class="form-control" id="dateInput" required aria-describedby="dateHelp" disabled>
-							    <div id="dateHelp" class="form-text">Date cannot be edited.</div>
+							    <input type="date" name="date" class="form-control" id="dateInput" required aria-describedby="dateHelp">
+							    <div id="dateHelp" class="form-text">Text for help.</div>
 				  			</div>
 			    		</div>
 			    	</div>
