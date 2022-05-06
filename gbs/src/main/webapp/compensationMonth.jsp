@@ -64,6 +64,9 @@
 		        <li class="nav-item">
 		          <a class="nav-link text-op-header" href="#">Search Employees</a>
 		        </li>
+		        <li class="nav-item">
+		          <a class="nav-link text-op-header" href="#">Add Compensation</a>
+		        </li>
 		      </ul>
 		    </div>
 		  </div>

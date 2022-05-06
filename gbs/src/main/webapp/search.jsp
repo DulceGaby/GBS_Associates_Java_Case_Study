@@ -41,6 +41,14 @@
 			font-weight:500;
 			margin-bottom:30px !important;
 		}
+		.font-10{
+			font-size:10px !important;
+		}
+		.form-search{
+			display:flex;
+			align-items:center;
+			justify-content:flex-end;
+		}
 	</style>
 	<body>
 	
@@ -56,59 +64,99 @@
 		        <li class="nav-item">
 		          <a class="nav-link text-op-header" href="#">Search Employees</a>
 		        </li>
+		        <li class="nav-item">
+		          <a class="nav-link text-op-header" href="#">Add Compensation</a>
+		        </li>
 		      </ul>
 		    </div>
 		  </div>
 		</nav>
 		
-		<div class="p-5" style="margin-bottom:211px">
-			<p id="title-page">Employees : <%= request.getAttribute("result") %>
-				Also is : ${result}</p>
-			
-				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-				  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-				    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-				  </symbol>
-				</svg>			
-				
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				  <div style="display:flex; align-items:center">
-				  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-				    There is an error adding the new employee
-				  </div>
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
+		<div class="p-5" style="margin-bottom:313px">
+			<p id="title-page">Search Employees : <%= request.getAttribute("result") %>
+				  ${result}</p>
 			
 			<div class="card">
 			  <div class="card-body">
+			    
+			    <form>
+				    <div class="row mb-4 form-search">
+				    	
+				    	<div class="col-10">
+				    		<div class="form-floating">
+							  <input type="text" class="form-control" id="floatingInput1" name="search">
+							  <label for="floatingInput1">Search</label>
+							</div>
+				    	</div>
+				    	<div class="col-1" style="display:flex;justify-content:flex-end">
+				    		<a href="#" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
+				    	</div>
+				    	<div class="col-1">
+				    		<button type="submit" class="btn btn-primary btn-form">Search</button>
+				    	</div>
+				    </div>
+			    </form>
+			    
+			    
 			    <table class="table">
 				  <thead>
 				    <tr>
+				      <th scope="col"></th>
 				      <th scope="col">UID</th>
 				      <th scope="col">First Name</th>
-				      <th scope="col">Middle Name</th>
 				      <th scope="col">Last Name</th>
-				      <th scope="col">Birth Date</th>
 				      <th scope="col">Position</th>
+				      <th scope="col">Compensation</th>
 				    </tr>
 				  </thead>
 				  <tbody>
 				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
+				      <td scope="row">
+				      	<a href="#">
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
+						</a>
+				      </td>
+				      <td>89614</td>
+				      <td>Jonh</td>
+				      <td>Smith</td>
+				      <td>Sales</td>
+				      <td scope="row">
+				      	<a href="#">
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
+						</a>
+				      </td>
 				    </tr>
 				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
+				      <td scope="row">
+				      	<a href="#">
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
+						</a>
+				      </td>
+				      <td>89614</td>
+				      <td>Jonh</td>
+				      <td>Smith</td>
+				      <td>Sales</td>
+				      <td scope="row">
+				      	<a href="#">
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
+						</a>
+				      </td>
 				    </tr>
 				    <tr>
-				      <th scope="row">3</th>
-				      <td colspan="2">Larry the Bird</td>
-				      <td>@twitter</td>
+				      <td scope="row">
+				      	<a href="#">
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
+						</a>
+				      </td>
+				      <td>89614</td>
+				      <td>Jonh</td>
+				      <td>Smith</td>
+				      <td>Sales</td>
+				      <td scope="row">
+				      	<a href="#">
+					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
+						</a>
+				      </td>
 				    </tr>
 				  </tbody>
 				</table>
