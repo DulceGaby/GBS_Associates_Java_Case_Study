@@ -218,15 +218,29 @@
 				  </symbol>
 				</svg>			
 				
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				  <div style="display:flex; align-items:center">
-				  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-				    Credentials do not match
-				  </div>
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
+				
+				<%
+					String text="";
+					if(request.getAttribute("mssg").toString() != null)
+						text =  request.getAttribute("mssg").toString() ;
+			        if(text==null)  {
+			    %>            
+			        <p>None messages</p>
+			    <%
+			        } else {
+			    %>
+			        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
+					  <div style="display:flex; align-items:center">
+					  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					    ${mssg}
+					  </div>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+			    <%
+			        }
+			    %>
 		    	
-		      	<form action='login' method="post">
+		      	<form action='add'>
 		      		<div class="mb-4">
 					  <label for="emailInput" class="form-label">Email address</label>
 					  <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
@@ -236,11 +250,6 @@
 					  <input type="password" name="password" id="passwordInput" class="form-control"  required>
 					</div>
 					 <button type="submit" class="btn mb-3 btn-form">Login</button>
-				</form>
-				<form action='add'>
-					<input type="text" name="t1"> <br>
-					<input type="text" name="t2"> <br>
-					<input type="submit">
 				</form>
 				
 				<a href="home">Click to go home</a>
