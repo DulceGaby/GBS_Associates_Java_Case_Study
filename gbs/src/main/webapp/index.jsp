@@ -234,10 +234,10 @@
 			    %>
 			        
 		    	
-		      	<form action='add'>
+		      	<form action='login' method="post">
 		      		<div class="mb-4">
 					  <label for="emailInput" class="form-label">Email address</label>
-					  <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+					  <input type="email"  name="email" class="form-control" id="emailInput"  placeholder="name@example.com" required value=${emailE}>
 					</div>
 					<div class="mb-4">
 					  <label for="passwordInput" class="form-label">Password</label>
@@ -245,8 +245,6 @@
 					</div>
 					 <button type="submit" class="btn mb-3 btn-form">Login</button>
 				</form>
-				
-				<a href="home">Click to go home</a>
 			</div>
 	    </div>
     </div>	
