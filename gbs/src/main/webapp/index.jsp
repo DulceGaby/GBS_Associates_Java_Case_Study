@@ -220,15 +220,8 @@
 				
 				
 				<%
-					String text="";
-					if(request.getAttribute("mssg").toString() != null)
-						text =  request.getAttribute("mssg").toString() ;
-			        if(text==null)  {
+			        if(request.getAttribute("mssg") != null)  {
 			    %>            
-			        <p>None messages</p>
-			    <%
-			        } else {
-			    %>
 			        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
 					  <div style="display:flex; align-items:center">
 					  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
@@ -237,8 +230,9 @@
 					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 			    <%
-			        }
+			        } 
 			    %>
+			        
 		    	
 		      	<form action='add'>
 		      		<div class="mb-4">
