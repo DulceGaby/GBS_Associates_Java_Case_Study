@@ -10,8 +10,30 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class EmployeeController {
-	@RequestMapping("/addEmployee")
+	
+	@RequestMapping("/add-employee")
 	public ModelAndView addEmployee(HttpServletRequest request, HttpServletResponse responde) {
+		 ModelAndView mv = new ModelAndView();
+		 mv.setViewName("home.jsp");	
+		 return mv;
+	}
+	
+	@RequestMapping("/add-compensation")
+	public ModelAndView addCompensation(HttpServletRequest request, HttpServletResponse responde) {
+		 ModelAndView mv = new ModelAndView();
+		 mv.setViewName("addCompensation.jsp");	
+		 return mv;
+	}
+	
+	@RequestMapping("/search")
+	public ModelAndView employees(HttpServletRequest request, HttpServletResponse responde) {
+		 ModelAndView mv = new ModelAndView();
+		 mv.setViewName("search.jsp");	
+		 return mv;
+	}
+	
+	@RequestMapping("/addEmployee")
+	public ModelAndView addEmployeeStore(HttpServletRequest request, HttpServletResponse responde) {
 		System.out.println("ESTOY EN EL CONTROLADOR DE EMPLOYEE");
 		String message ="";
 		String firstName = request.getParameter("firstName");

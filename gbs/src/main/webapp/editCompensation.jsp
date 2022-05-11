@@ -46,18 +46,18 @@
 	
 		<nav class="navbar navbar-expand-lg" style="background-color:#a7bee4">
 		  <div class="container-fluid">
-		  	<img class="img-header" src="https://scontent.fmlm1-1.fna.fbcdn.net/v/t39.30808-6/279466520_5382950738396062_8478591622979059030_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeE5AAe_o9m4hJBZ76PXhVDA4cw4AuNRBo_hzDgC41EGjzMp18wi6OVMgi0SHAcmOvgBRRevgCljuQ7cSuNU9y0Y&_nc_ohc=GymDisod7FwAX_k6Z6g&_nc_ht=scontent.fmlm1-1.fna&oh=00_AT_QnMOLlhogqG83WuR9ZDH96OFXwWWhH4bZWQkJwK79_A&oe=6278D20D">
+		  	<img class="img-header" src="https://scontent.fmlm1-1.fna.fbcdn.net/v/t39.30808-6/279466520_5382950738396062_8478591622979059030_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=k9ilTwYh0-wAX9wm8SP&_nc_ht=scontent.fmlm1-1.fna&oh=00_AT8K_HwcAXCx4PIUa8aycMFin75ECwKXngunv_I55b-DGg&oe=6270E90D">
 		
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		        <li class="nav-item">
-		          <a class="nav-link active text-op-header" aria-current="page" href="#">Add Employee</a>
+		          <a class="nav-link active text-op-header" aria-current="page" href="add-employee">Add Employee</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="#">Search Employees</a>
+		          <a class="nav-link text-op-header" href="search">Search Employees</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="#">Add Compensation</a>
+		          <a class="nav-link text-op-header" href="add-compensation">Add Compensation</a>
 		        </li>
 		      </ul>
 		    </div>
