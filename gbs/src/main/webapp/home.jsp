@@ -73,8 +73,8 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:211px">
-			<p id="title-page">Add Employee Result is : <%= request.getAttribute("result") %>
-				Also is : ${result}</p>
+			<p id="title-page">Add Employee
+
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 				  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -82,17 +82,23 @@
 				  </symbol>
 				</svg>			
 				
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				  <div style="display:flex; align-items:center">
-				  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-				    There is an error adding the new employee
-				  </div>
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
+				<%
+			        if(request.getAttribute("mssg") != null)  {
+			    %>            
+			        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
+					  <div style="display:flex; align-items:center">
+					  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					    ${mssg}
+					  </div>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+			    <%
+			        } 
+			    %>
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form>
+			    <form action="addEmployee" method="post">
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">

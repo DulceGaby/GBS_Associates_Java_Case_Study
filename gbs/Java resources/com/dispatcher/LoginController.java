@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 @Controller
 public class LoginController {
 	@RequestMapping("/login")
-	public ModelAndView add(HttpServletRequest request, HttpServletResponse responde ) {
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse responde ) {
 		String message ="";
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -45,10 +45,7 @@ public class LoginController {
         	return mv;
         }
 		
-		mv.setViewName("home.jsp");
-		mv.addObject("result",8);
-		
-		
+		mv.setViewName("home.jsp");	
 		return mv;
 	}
 }
