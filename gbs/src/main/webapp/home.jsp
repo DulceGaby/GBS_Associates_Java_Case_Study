@@ -136,10 +136,9 @@
 			    			<div class="mb-3">
 							    <label for="positionInput" class="form-label">Position *</label>
 							    <select class="form-select" id="positionInput" name="position" required>
-								  <option selected>Part-time</option>
-								  <option value="1">Full-time</option>
-								  <option value="2">Seasonal </option>
-								  <option value="3">Admin</option>
+								  <option selected value="Part-time">Part-time</option>
+								  <option value="Full-time">Full-time</option>
+								  <option value="Seasonal">Seasonal </option>
 								</select>
 				  			</div>
 			    		</div>
