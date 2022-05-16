@@ -1,5 +1,11 @@
 package com.dto;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="employee")
 public class Employee {
 
 	@Override
@@ -7,7 +13,7 @@ public class Employee {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName="
 				+ lastName + ", birthDate=" + birthDate + ", position=" + position + "]";
 	}
-	
+	@Id
 	private int id;
 	private String firstName;
 	private String middleName;
