@@ -3,14 +3,51 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:ctx="http://www.springframework.org/schema/context"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p" 
+		xmlns:c="http://www.springframework.org/schema/c"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+       	xmlns:tx="http://www.springframework.org/schema/tx"
 		xmlns:mvc="http://www.springframework.org/schema/mvc"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
 >
+
+
 	<ctx:annotation-config></ctx:annotation-config>
-	<ctx:component-scan base-package="com.dispatcher"></ctx:component-scan>
+	<ctx:component-scan base-package="com"></ctx:component-scan>
+	
+	<tx:annotation-driven />
+
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		name="dataSource" p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3307/employmentsys"
+		p:username="root" p:password="1234" />
+
+	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		name="sessionFactory" p:dataSource-ref="dataSource">
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.dto.Employee</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.orm.hibernate5.HibernateTemplate"
+		name="hibernateTemplate" p:sessionFactory-ref="sessionFactory" />
+
+	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		name="transactionManager" p:sessionFactory-ref="sessionFactory" />
+
+
 </beans>
