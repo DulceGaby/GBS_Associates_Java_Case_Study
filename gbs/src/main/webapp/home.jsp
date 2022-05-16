@@ -8,8 +8,30 @@
 			    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			    crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<meta charset="ISO-8859-1">
 		<title>Add employee</title>
+		
+		<script>
+			$(document).ready(function(){
+				$("#firstNameInput").change(function(){
+					alert("Ingresaste texto");
+					$.ajax({
+						url : 'validateFirstName',
+						data: {
+							firstName : $("#firstNameInput").val()
+						},
+						success : function(responseText){
+							$("#firstNameHelp").text(responseText);
+							if(responseText !=""){
+								$('#ejemplo').css({'display' : 'block'});
+								$("#firstNameInput").focus();
+							}
+						}
+					});
+				});
+			});
+		</script>
 	</head>
 	<style>
 		.img-header{
@@ -104,7 +126,8 @@
 			    			<div class="mb-3">
 							    <label for="firstNameInput" class="form-label">First Name *</label>
 							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
-				    			<div id="firstNameHelp" class="form-text">Text for help.</div>
+				    			<span id="firstNameHelp" class="form-text"></span>
+				    			<div id="ejemplo" style="display:none">BANDERA</div>
 				  			</div>
 			    		</div>
 			    		<div class="col">

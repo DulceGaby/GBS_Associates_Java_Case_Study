@@ -29,4 +29,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		Integer result = (Integer) hibernateTemplate.save(employee);
 		return result;
 	}
+
+	@Override
+	public Employee findEmployee(String firstName) {
+		
+		
+		return hibernateTemplate.get(Employee.class, 1);
+	}
 }
