@@ -30,6 +30,65 @@
 						}
 					});
 				});
+				$("#birthDateInput").change(function(){
+					var dateInput = $("#birthDateInput").val();
+					var date = new Date();
+					
+					var yearInput = dateInput.substring(0,4);
+					var monthInput = dateInput.substring(5,7);
+					var dayInput = dateInput.substring(8,10);
+					
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+					
+					var currentDate;
+
+					if(month < 10)
+						month = '0'+month;
+					if(day < 10)
+						day = '0'+day;
+
+					currentDate = year+'-'+month+'-'+day;
+					
+					var flag = false;
+					
+					//Comparation
+					if(yearInput > year)
+						flag=true;
+					else if (yearInput == year)
+					{
+						//Checking month
+						if(monthInput > month)
+							flag=true;
+						else if(monthInput == month){
+							//Checking day
+							if(dayInput > day)
+								flag = true;
+						}
+					}
+					else
+						flag=false;
+					
+					
+					if(flag == true){
+						$("#birthDateHelp").css("display", "block");
+						$("#birthDateInput").focus();
+					}
+					else{
+						flag=false;
+						$("#birthDateHelp").css("display", "none");
+					}
+				})
+				$("#add-employee").change(function(){
+					if($('#birthDateHelp').css('display') == 'block' || $('#firstNameHelp').css('display') == 'block')
+					{
+						$(':input[type="submit"]').prop('disabled', true);
+					}
+					else{
+						$(':input[type="submit"]').prop('disabled', false);
+					}
+				});
 			});
 		</script>
 	</head>
@@ -70,6 +129,9 @@
 			display:flex;
 			align-items:center;
 			justify-content:flex-end;
+		}
+		.form-text{
+			color:#dc3545;
 		}
 	</style>
 	<body>
@@ -120,13 +182,13 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form action="addEmployee" method="post">
+			    <form action="addEmployee" method="post" id="add-employee">
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="firstNameInput" class="form-label">First Name *</label>
 							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
-				    			<span id="firstNameHelp" class="form-text"></span>
+				    			<div id="firstNameHelp" class="form-text" style="display:none"></div>
 				    			<div id="ejemplo" style="display:none">BANDERA</div>
 				  			</div>
 			    		</div>
@@ -143,14 +205,14 @@
 			    			<div class="mb-3">
 							    <label for="lastNameInput" class="form-label">Last Name *</label>
 							    <input type="text" name="lastName" class="form-control" id="lastNameInput" required aria-describedby="lastNameHelp">
-				    			<div id="lastNameHelp" class="form-text">Text for help.</div>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="birthDateInput" class="form-label">Birth Date *</label>
 							    <input type="date" name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp">
-							    <div id="birthDateHelp" class="form-text">Text for help.</div>
+							    <div id="birthDateHelp" class="form-text" style="display:none">Birth date should not be later than current date.
+</div>
 				  			</div>
 			    		</div>
 			    	</div>
