@@ -14,22 +14,6 @@
 		
 		<script>
 			$(document).ready(function(){
-				$("#firstNameInput").change(function(){
-					alert("Ingresaste texto");
-					$.ajax({
-						url : 'validateFirstName',
-						data: {
-							firstName : $("#firstNameInput").val()
-						},
-						success : function(responseText){
-							$("#firstNameHelp").text(responseText);
-							if(responseText !=""){
-								$('#ejemplo').css({'display' : 'block'});
-								$("#firstNameInput").focus();
-							}
-						}
-					});
-				});
 				$("#birthDateInput").change(function(){
 					var dateInput = $("#birthDateInput").val();
 					var newDate = Date.parse(dateInput);
@@ -61,7 +45,7 @@
 				});
 				
 				$("#add-employee").change(function(){
-					if($('#birthDateHelp').css('display') == 'block' || $('#firstNameHelp').css('display') == 'block')
+					if($('#birthDateHelp').css('display') == 'block')
 					{
 						$(':input[type="submit"]').prop('disabled', true);
 					}
@@ -168,7 +152,6 @@
 			    			<div class="mb-3">
 							    <label for="firstNameInput" class="form-label">First Name *</label>
 							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
-				    			<div id="firstNameHelp" class="form-text" style="display:none">Employee already exists</div>
 				  			</div>
 			    		</div>
 			    		<div class="col">

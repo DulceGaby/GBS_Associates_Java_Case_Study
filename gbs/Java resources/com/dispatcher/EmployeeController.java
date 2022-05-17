@@ -3,16 +3,15 @@ package com.dispatcher;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,14 +48,15 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping("/search")
-	public String employees() {
+	public String employees(ModelMap model) {
+		 List<Employee> employees = service.getEmployees();
+		 model.addAttribute("employees", employees);
 		 return "search.jsp";	
 	}
 	
 	
 	@RequestMapping(value="/addEmployee", method=RequestMethod.POST)
 	public ModelAndView addEmployeeStore(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
-		System.out.println(employee);
 		
 		//Back-end validation
 		boolean validation = true;
@@ -77,34 +77,38 @@ public class EmployeeController {
         	mssg = "Birth date should not be later than current date and must comply with legal validation.";
         }
         
+        //Name + middle + last name validation
+        String firstName = request.getParameter("firstName");
+        String middleName = request.getParameter("middleName");
+        String lastName = request.getParameter("lastName");
+        
+        
+        Employee oldEmployee = service.getEmployee(firstName);
+        if(oldEmployee != null) {
+			mssg +=" Employee already exists";
+			validation = false;
+		}
+        
         
 		ModelAndView mv = new ModelAndView();
 		
 		if(validation == true) {
-//			Add try catch
-			int result = service.save(employee);
-			mv.setViewName("search.jsp");	
-			mv.addObject("mssg","The employee was added successfully !"+result);
-			return mv;
+			try {
+				service.save(employee);
+				mv.setViewName("search.jsp");	
+				mv.addObject("mssg","The employee was added successfully !");
+				return mv;
+			}catch(Exception e) {
+				mv.setViewName("home.jsp");	
+				mv.addObject("mssg","Something went wrong please try again");
+				return mv;
+			}			
 		}
 		else {
 			mv.setViewName("home.jsp");	
 			mv.addObject("mssg",mssg);
 			return mv;
 		}
-	}
-	
-	@RequestMapping("validateFirstName")
-	public @ResponseBody String validateFirstName(@RequestParam("firstName") String firstName) {
-		String mssg ="";
-		Employee employee = service.getEmployee(firstName);
-		
-		if(employee != null) {
-			mssg="El nombre ya existe";
-		}
-		System.out.println("BANDERA CONTROLADOR "+mssg);
-		return mssg;		
-		
 	}
 }
 

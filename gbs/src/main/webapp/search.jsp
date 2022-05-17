@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -129,54 +130,26 @@
 				    </tr>
 				  </thead>
 				  <tbody>
+				  
+				  <c:forEach items="${employees}" var="employee">
 				    <tr>
 				      <td scope="row">
 				      	<a href="#">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>
-				      <td>89614</td>
-				      <td>Jonh</td>
-				      <td>Smith</td>
-				      <td>Sales</td>
+				      <td>${employee.id}</td>
+				      <td>${employee.firstName}</td>
+				      <td>${employee.middleName}</td>
+				      <td>${employee.position}</td>
 				      <td scope="row">
 				      	<a href="#">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
 						</a>
 				      </td>
 				    </tr>
-				    <tr>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
-						</a>
-				      </td>
-				      <td>89614</td>
-				      <td>Jonh</td>
-				      <td>Smith</td>
-				      <td>Sales</td>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
-						</a>
-				      </td>
-				    </tr>
-				    <tr>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
-						</a>
-				      </td>
-				      <td>89614</td>
-				      <td>Jonh</td>
-				      <td>Smith</td>
-				      <td>Sales</td>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
-						</a>
-				      </td>
-				    </tr>
+				  </c:forEach>
+				    
 				  </tbody>
 				</table>
 			  </div>
