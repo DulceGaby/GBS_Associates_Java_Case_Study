@@ -60,7 +60,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
 	 public String viewEmployee(@PathVariable("id") int id) {
 	  System.out.println("Bandera controlador");
-	  return "editEmployee";
+	  return "../editEmployee";
 	}
 		
 	
