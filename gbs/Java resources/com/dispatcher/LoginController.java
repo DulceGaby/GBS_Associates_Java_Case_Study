@@ -39,13 +39,13 @@ public class LoginController {
         //If there are problems in the form, it will be redirected to the login again, with a message
         if(message!="") {
         	System.out.println("There is a message");
-        	mv.setViewName("index.jsp");
+        	mv.setViewName("index");
         	mv.addObject("mssg",message);
         	mv.addObject("emailE",email);
         	return mv;
         }
 		
-		mv.setViewName("home.jsp");	
+		mv.setViewName("home");	
 		return mv;
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,28 +41,28 @@ public class EmployeeController {
 
 	@RequestMapping("/add-employee")
 	public String addEmployee() {
-		 return "home.jsp";
+		 return "home";
 	}
 	
 	@RequestMapping("/add-compensation")
 	public String addCompensation() {
-		 return "addCompensation.jsp";	
+		 return "addCompensation";	
 	}
 	
 	@RequestMapping("/search")
 	public String employees(ModelMap model) {
 		 List<Employee> employees = service.getEmployees();
 		 model.addAttribute("employees", employees);
-		 return "search.jsp";	
+		 return "search";	
 	}
 	
-	
-	@RequestMapping("/employee/{id}")
+
+	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
 	 public String viewEmployee(@PathVariable("id") int id) {
 	  System.out.println("Bandera controlador");
-	  return "editEmployee.jsp";
-	 }
-	
+	  return "editEmployee";
+	}
+		
 	
 	@RequestMapping(value="/addEmployee", method=RequestMethod.POST)
 	public ModelAndView addEmployeeStore(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
@@ -103,17 +104,17 @@ public class EmployeeController {
 		if(validation == true) {
 			try {
 				service.save(employee);
-				mv.setViewName("search.jsp");	
+				mv.setViewName("search");	
 				mv.addObject("mssg","The employee was added successfully !");
 				return mv;
 			}catch(Exception e) {
-				mv.setViewName("home.jsp");	
+				mv.setViewName("home");	
 				mv.addObject("mssg","Something went wrong please try again");
 				return mv;
 			}			
 		}
 		else {
-			mv.setViewName("home.jsp");	
+			mv.setViewName("home");	
 			mv.addObject("mssg",mssg);
 			return mv;
 		}

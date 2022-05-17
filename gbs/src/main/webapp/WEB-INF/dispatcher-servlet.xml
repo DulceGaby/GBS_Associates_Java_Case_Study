@@ -49,5 +49,10 @@
 	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager"
 		name="transactionManager" p:sessionFactory-ref="sessionFactory" />
 
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+</bean>
 
 </beans>
