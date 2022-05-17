@@ -134,7 +134,7 @@
 				  <c:forEach items="${employees}" var="employee">
 				    <tr>
 				      <td scope="row">
-				      	<a href="#">
+				      	<a href="employee/16">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>
