@@ -32,17 +32,12 @@
 				});
 				$("#birthDateInput").change(function(){
 					var dateInput = $("#birthDateInput").val();
+					var newDate = Date.parse(dateInput);
 					var date = new Date();
-					
-					var yearInput = dateInput.substring(0,4);
-					var monthInput = dateInput.substring(5,7);
-					var dayInput = dateInput.substring(8,10);
 					
 					var day = date.getDate();
 					var month = date.getMonth() + 1;
 					var year = date.getFullYear();
-					
-					var currentDate;
 
 					if(month < 10)
 						month = '0'+month;
@@ -50,28 +45,12 @@
 						day = '0'+day;
 
 					currentDate = year+'-'+month+'-'+day;
+					currentDate = Date.parse(currentDate);
 					
-					var flag = false;
+					var difference= Math.abs(currentDate-newDate);
+					days = difference/(1000 * 3600 * 24);
 					
-					//Comparation
-					if(yearInput > year)
-						flag=true;
-					else if (yearInput == year)
-					{
-						//Checking month
-						if(monthInput > month)
-							flag=true;
-						else if(monthInput == month){
-							//Checking day
-							if(dayInput > day)
-								flag = true;
-						}
-					}
-					else
-						flag=false;
-					
-					
-					if(flag == true){
+					if(days<6570){
 						$("#birthDateHelp").css("display", "block");
 						$("#birthDateInput").focus();
 					}
@@ -79,7 +58,8 @@
 						flag=false;
 						$("#birthDateHelp").css("display", "none");
 					}
-				})
+				});
+				
 				$("#add-employee").change(function(){
 					if($('#birthDateHelp').css('display') == 'block' || $('#firstNameHelp').css('display') == 'block')
 					{
