@@ -168,8 +168,7 @@
 			    			<div class="mb-3">
 							    <label for="firstNameInput" class="form-label">First Name *</label>
 							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
-				    			<div id="firstNameHelp" class="form-text" style="display:none"></div>
-				    			<div id="ejemplo" style="display:none">BANDERA</div>
+				    			<div id="firstNameHelp" class="form-text" style="display:none">Employee already exists</div>
 				  			</div>
 			    		</div>
 			    		<div class="col">
@@ -191,8 +190,8 @@
 			    			<div class="mb-3">
 							    <label for="birthDateInput" class="form-label">Birth Date *</label>
 							    <input type="date" name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp">
-							    <div id="birthDateHelp" class="form-text" style="display:none">Birth date should not be later than current date.
-</div>
+							    <div id="birthDateHelp" class="form-text" style="display:none">Birth date should not be later than current date and must comply with legal validation.
+							</div>
 				  			</div>
 			    		</div>
 			    	</div>

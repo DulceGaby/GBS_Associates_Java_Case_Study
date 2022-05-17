@@ -1,8 +1,15 @@
 package com.dispatcher;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-//import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -48,19 +55,43 @@ public class EmployeeController {
 	
 	
 	@RequestMapping(value="/addEmployee", method=RequestMethod.POST)
-	public ModelAndView addEmployeeStore(@ModelAttribute("employee") Employee employee) {
-		System.out.println("ESTOY EN EL CONTROLADOR DE EMPLOYEE");
+	public ModelAndView addEmployeeStore(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
 		System.out.println(employee);
 		
-		int result = service.save(employee);
+		//Back-end validation
+		boolean validation = true;
+		String mssg="";
 		
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String birthDate = request.getParameter("birthDate");
+		Date newDate = formatter.parse(birthDate);
 		
+		//Getting the rest
+		long diff = date.getTime() - newDate.getTime();
+        TimeUnit time = TimeUnit.DAYS; 
+        long days = time.convert(diff, TimeUnit.MILLISECONDS);
+        
+        if(days <6570) {
+        	validation = false;
+        	mssg = "Birth date should not be later than current date and must comply with legal validation.";
+        }
+        
+        
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("search.jsp");	
-		mv.addObject("mssg","The employee was added successfully !"+result);
 		
-		
-		return mv;
+		if(validation == true) {
+//			Add try catch
+			int result = service.save(employee);
+			mv.setViewName("search.jsp");	
+			mv.addObject("mssg","The employee was added successfully !"+result);
+			return mv;
+		}
+		else {
+			mv.setViewName("home.jsp");	
+			mv.addObject("mssg",mssg);
+			return mv;
+		}
 	}
 	
 	@RequestMapping("validateFirstName")
