@@ -101,14 +101,23 @@ public class EmployeeController {
 			mssg = "Birth date should not be later than current date and must comply with legal validation. ";
 		
         //EMPLOYEE VALIDATION
-        Employee oldEmployee = service.getEmployee(firstName, middleName, lastName, birthDate);
-        
-        if(oldEmployee != null) {
-			mssg +="Employee "+firstName+" "+middleName+" "+lastName+" with date of birth: "+birthDate + " already exists.";
-			validation = false;
-		}        
-        
+		
 		ModelAndView mv = new ModelAndView();
+		
+		//Searching the database
+		try {
+			Employee oldEmployee = service.getEmployee(firstName, middleName, lastName, birthDate);
+	        
+	        if(oldEmployee != null) {
+				mssg +="Employee "+firstName+" "+middleName+" "+lastName+" with date of birth: "+birthDate + " already exists.";
+				validation = false;
+			}  
+		} catch (Exception e) {
+			mv.setViewName("home");	
+			mv.addObject("employee",employee);
+			mv.addObject("mssg","Something went wrong please try again");
+			return mv;
+		}
 		
 		if(validation == true) {
 			try {
@@ -121,6 +130,7 @@ public class EmployeeController {
 				return mv;
 			}catch(Exception e) {
 				mv.setViewName("home");	
+				mv.addObject("employee",employee);
 				mv.addObject("mssg","Something went wrong please try again");
 				return mv;
 			}			
