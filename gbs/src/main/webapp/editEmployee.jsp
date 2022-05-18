@@ -143,7 +143,7 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form action="" method="post" id="add-employee">
+			    <form action="../editEmployee" method="post" id="add-employee">
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">

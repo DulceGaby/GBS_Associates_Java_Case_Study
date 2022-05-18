@@ -56,10 +56,9 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
 	 public String viewEmployee(@PathVariable("id") int id, ModelMap model) {
-	  Employee employee = service.viewEmployee(id);
-	  model.addAttribute("employee", employee);
-
-	  return "../editEmployee";
+		  Employee employee = service.viewEmployee(id);
+		  model.addAttribute("employee", employee);
+		  return "../editEmployee";
 	}
 		
 	public boolean dateValidation(String birthDate) throws ParseException {
@@ -142,6 +141,20 @@ public class EmployeeController {
 			mv.addObject("employee",employee);
 			return mv;
 		}
+	}
+
+
+	@RequestMapping(value="/editEmployee", method=RequestMethod.POST)
+	public ModelAndView editEmployee(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
+		
+		System.out.println("ESTOY EN EL CONTROLADOR PARA EDITAR");
+		ModelAndView mv = new ModelAndView();
+		List<Employee> employees = service.getEmployees();
+		
+		mv.setViewName("search");	
+		mv.addObject("employees",employees);
+		mv.addObject("mssg","The employee was added successfully !");
+		return mv;
 	}
 }
 
