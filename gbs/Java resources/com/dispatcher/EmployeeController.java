@@ -112,8 +112,11 @@ public class EmployeeController {
 		
 		if(validation == true) {
 			try {
-				service.save(employee);
+				service.save(employee);				
+				List<Employee> employees = service.getEmployees();
+				
 				mv.setViewName("search");	
+				mv.addObject("employees",employees);
 				mv.addObject("mssg","The employee was added successfully !");
 				return mv;
 			}catch(Exception e) {
@@ -125,7 +128,7 @@ public class EmployeeController {
 		else {
 			mv.setViewName("home");	
 			mv.addObject("mssg",mssg);
-			//Re sending data for inputs
+			//Re-sending data for inputs to re write
 			mv.addObject("employee",employee);
 			return mv;
 		}
