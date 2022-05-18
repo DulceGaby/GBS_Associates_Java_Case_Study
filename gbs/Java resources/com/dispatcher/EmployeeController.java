@@ -12,13 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dto.Employee;
@@ -58,22 +55,19 @@ public class EmployeeController {
 	
 
 	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
-	 public String viewEmployee(@PathVariable("id") int id) {
-	  System.out.println("Bandera controlador");
+	 public String viewEmployee(@PathVariable("id") int id, ModelMap model) {
+	  Employee employee = service.viewEmployee(id);
+	  model.addAttribute("employee", employee);
+
 	  return "../editEmployee";
 	}
 		
-	
-	@RequestMapping(value="/addEmployee", method=RequestMethod.POST)
-	public ModelAndView addEmployeeStore(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
+	public boolean dateValidation(String birthDate) throws ParseException {
 		
-		//Back-end validation
 		boolean validation = true;
-		String mssg="";
 		
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String birthDate = request.getParameter("birthDate");
 		Date newDate = formatter.parse(birthDate);
 		
 		//Getting the rest
@@ -83,21 +77,36 @@ public class EmployeeController {
         
         if(days <6570) {
         	validation = false;
-        	mssg = "Birth date should not be later than current date and must comply with legal validation.";
         }
-        
-        //Name + middle + last name validation
+		
+		return validation;
+	}
+	
+	@RequestMapping(value="/addEmployee", method=RequestMethod.POST)
+	public ModelAndView addEmployeeStore(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
+		
+		//Back-end validation
+		//Request
         String firstName = request.getParameter("firstName");
         String middleName = request.getParameter("middleName");
         String lastName = request.getParameter("lastName");
+        String birthDate = request.getParameter("birthDate");
         
+		boolean validation = true;
+		String mssg="";
+		
+		//DATE VALIDATION
+		validation = dateValidation(birthDate);
+		if(validation == false)
+			mssg = "Birth date should not be later than current date and must comply with legal validation. ";
+		
+        //EMPLOYEE VALIDATION
+        Employee oldEmployee = service.getEmployee(firstName, middleName, lastName, birthDate);
         
-        Employee oldEmployee = service.getEmployee(firstName);
         if(oldEmployee != null) {
-			mssg +=" Employee already exists";
+			mssg +="Employee "+firstName+" "+middleName+" "+lastName+" with date of birth: "+birthDate + " already exists.";
 			validation = false;
-		}
-        
+		}        
         
 		ModelAndView mv = new ModelAndView();
 		
@@ -116,6 +125,8 @@ public class EmployeeController {
 		else {
 			mv.setViewName("home");	
 			mv.addObject("mssg",mssg);
+			//Re sending data for inputs
+			mv.addObject("employee",employee);
 			return mv;
 		}
 	}

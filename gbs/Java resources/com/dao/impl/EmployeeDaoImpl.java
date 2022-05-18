@@ -2,7 +2,10 @@ package com.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,12 +36,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public Employee findEmployee(String firstName) {
-		return hibernateTemplate.get(Employee.class, 16);
+	public Employee findEmployee(String firstName, String middleName, String lastName, String birthDate) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
+	    criteria.add(Restrictions.eq("firstName", firstName));
+	    criteria.add(Restrictions.eq("middleName", middleName));
+	    criteria.add(Restrictions.eq("lastName", lastName));
+	    criteria.add(Restrictions.eq("birthDate", birthDate));
+	    return (Employee) DataAccessUtils.uniqueResult(getHibernateTemplate().findByCriteria(criteria));
 	}
 
 	@Override
 	public List<Employee> findEmployees() {
 		return hibernateTemplate.loadAll(Employee.class);
+	}
+
+	@Override
+	public Employee viewEmployee(int id) {
+		return hibernateTemplate.get(Employee.class, id);
 	}
 }

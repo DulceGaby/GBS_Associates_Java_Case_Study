@@ -31,13 +31,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee getEmployee(String firstName) {
-		return dao.findEmployee(firstName);
+	public Employee getEmployee(String firstName, String middleName, String lastName, String birthDate) {
+		return dao.findEmployee(firstName, middleName, lastName, birthDate);
 	}
 
 	@Override
 	public List<Employee> getEmployees() {
 		return dao.findEmployees();
+	}
+
+	@Override
+	public Employee viewEmployee(int id) {
+		return dao.viewEmployee(id);
 	}
 
 }

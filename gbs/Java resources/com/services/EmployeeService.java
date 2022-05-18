@@ -10,5 +10,7 @@ public interface EmployeeService {
 	
 	List<Employee> getEmployees();
 	
-	Employee getEmployee(String firstName);
+	Employee getEmployee(String firstName, String middleName, String lastName, String birthDate);
+	
+	Employee viewEmployee(int id);
 }

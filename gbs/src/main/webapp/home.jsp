@@ -151,13 +151,13 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="firstNameInput" class="form-label">First Name *</label>
-							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
+							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp" value=${employee.firstName}>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="middleNameInput" class="form-label">Middle Name</label>
-							    <input type="text" name="middleName" class="form-control" id="middleNameInput" aria-describedby="middleNameHelp">
+							    <input type="text" name="middleName" class="form-control" id="middleNameInput" aria-describedby="middleNameHelp" value=${employee.middleName}>
 				  			</div>
 			    		</div>
 			    	</div>
@@ -166,15 +166,14 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="lastNameInput" class="form-label">Last Name *</label>
-							    <input type="text" name="lastName" class="form-control" id="lastNameInput" required aria-describedby="lastNameHelp">
+							    <input type="text" name="lastName" class="form-control" id="lastNameInput" required aria-describedby="lastNameHelp" value=${employee.lastName}>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="birthDateInput" class="form-label">Birth Date *</label>
-							    <input type="date" name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp">
-							    <div id="birthDateHelp" class="form-text" style="display:none">Birth date should not be later than current date and must comply with legal validation.
-							</div>
+							    <input type="date" name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp" value=${employee.birthDate}>
+							    <div id="birthDateHelp" class="form-text" style="display:none">Birth date should not be later than current date and must comply with legal validation.</div>
 				  			</div>
 			    		</div>
 			    	</div>
@@ -183,7 +182,8 @@
 			    			<div class="mb-3">
 							    <label for="positionInput" class="form-label">Position *</label>
 							    <select class="form-select" id="positionInput" name="position" required>
-								  <option selected value="Part-time">Part-time</option>
+								  <option selected disabled hidden>${employee.position}</option>
+								  <option value="Part-time">Part-time</option>
 								  <option value="Full-time">Full-time</option>
 								  <option value="Seasonal">Seasonal </option>
 								</select>
