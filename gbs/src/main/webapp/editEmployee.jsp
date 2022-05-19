@@ -113,7 +113,7 @@
 		
 		<div class="p-5" style="margin-bottom:211px">
 			<div style="display:flex; align-items:center">
-				<a href="javascript:history.back();">
+				<a href="/gbs/search">
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16" style="margin:0px 10px 24px 0px; color:#1a2841">
 					  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
 					</svg>
@@ -195,7 +195,7 @@
 			    		</div>
 			    	</div>
 			    	
-				  <a href="javascript:history.back();" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
+				  <a href="/gbs/search" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
 				  <button type="submit" class="btn btn-primary btn-form mt-3 mb-3">Submit</button>
 				</form>
 			  </div>

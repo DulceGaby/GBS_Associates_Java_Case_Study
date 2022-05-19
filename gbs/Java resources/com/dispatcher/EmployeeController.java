@@ -203,9 +203,8 @@ public class EmployeeController {
 		else {
 			mv.setViewName("editEmployee");	
 			mv.addObject("mssg",mssg);
-			Employee oldData = service.viewEmployee(id);
-			//Re-sending data for the original employee
-			mv.addObject("employee",oldData);
+			//Re-sending data
+			mv.addObject("employee",employee);
 			return mv;
 		}
 	}
