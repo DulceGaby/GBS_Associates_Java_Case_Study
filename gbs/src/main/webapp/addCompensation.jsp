@@ -16,54 +16,92 @@
 		<script>
 			$(document).ready(function(){
 				$("#typeInput").ready(function(){
-					if($('#typeInput').val() == 'Salary')
-					{
-						alert("Salary");
-						$('#amountInput').prop('min','none');
+					if($('#typeInput').val() == 'Salary'){
 						$('#descriptionInput').prop('required',false);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp").css("display", "none");
+						$("#amountHelp2").css("display", "none");
 					}
-					else if($('#typeInput').val() == 'Bonus'){
-						alert("Bonus");
+					else if($('#typeInput').val() == 'Bonus' || $('#typeInput').val() == 'Commission' || $('#typeInput').val() == 'Allowance'){
 						$('#descriptionInput').prop('required',true);
-						$('#amountInput').prop('min',1);
-					}
-					else if($('#typeInput').val() == 'Commission'){
-						alert("Commission");
-						$('#descriptionInput').prop('required',true);
-						$('#amountInput').prop('min',1);
-					}
-					else if($('#typeInput').val() == 'Allowance'){
-						alert("Allowance");
-						$('#descriptionInput').prop('required',true);
-						$('#amountInput').prop('min',1);
+						$("#amountInput").attr({"min" : 1});
+						$("#amountHelp").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount <= 0){
+							$("#amountHelp2").css("display", "block");
+						}
+						else
+							$("#amountHelp2").css("display", "none");
 					}
 					else{
-						alert("Adjustment");
 						$('#descriptionInput').prop('required',true);
-						$('#amountInput').prop('min',1);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp2").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount == 0){
+							$("#amountHelp").css("display", "block");
+						}
+						else
+							$("#amountHelp").css("display", "none");
 					}
 				});
 				$("#typeInput").change(function(){
-					if($('#typeInput').val() == 'Salary')
-					{
-						alert("Salary");
+					if($('#typeInput').val() == 'Salary'){
 						$('#descriptionInput').prop('required',false);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp").css("display", "none");
+						$("#amountHelp2").css("display", "none");
 					}
-					else if($('#typeInput').val() == 'Bonus'){
-						alert("Bonus");
+					else if($('#typeInput').val() == 'Bonus' || $('#typeInput').val() == 'Commission' || $('#typeInput').val() == 'Allowance'){
 						$('#descriptionInput').prop('required',true);
-					}
-					else if($('#typeInput').val() == 'Commission'){
-						alert("Commission");
-						$('#descriptionInput').prop('required',true);
-					}
-					else if($('#typeInput').val() == 'Allowance'){
-						alert("Allowance");
-						$('#descriptionInput').prop('required',true);
+						$("#amountInput").attr({"min" : 1});
+						$("#amountHelp").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount <= 0){
+							$("#amountHelp2").css("display", "block");
+						}
+						else
+							$("#amountHelp2").css("display", "none");
 					}
 					else{
-						alert("Adjustment");
 						$('#descriptionInput').prop('required',true);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp2").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount == 0){
+							$("#amountHelp").css("display", "block");
+						}
+						else
+							$("#amountHelp").css("display", "none");
+					}
+				});
+				
+				$("#amountInput").change(function(){
+					var amount = $("#amountInput").val();
+					if(amount == 0 && $('#typeInput').val() == 'Adjustment'){
+						$("#amountHelp").css("display", "block");
+						$("#amountHelp2").css("display", "none");
+					}
+					else if(amount <= 0){
+						if($('#typeInput').val() == 'Bonus' || $('#typeInput').val() == 'Commission' || $('#typeInput').val() == 'Allowance'){
+							$("#amountHelp2").css("display", "block");
+							$("#amountHelp").css("display", "none");
+						}
+					}
+					else{
+						$("#amountHelp").css("display", "none");
+						$("#amountHelp2").css("display", "none");
+					}
+				});
+				
+				
+				$("#add-compensation").change(function(){
+					if($('#amountHelp').css('display') == 'block' || $('#amountHelp2').css('display') == 'block')
+					{
+						$(':input[type="submit"]').prop('disabled', true);
+					}
+					else{
+						$(':input[type="submit"]').prop('disabled', false);
 					}
 				});
 			});
@@ -99,6 +137,9 @@
 			color:#1a2841;
 			font-weight:500;
 			margin-bottom:30px !important;
+		}
+		.form-text{
+			color:#dc3545;
 		}
 	</style>
 	<body>
@@ -142,7 +183,7 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form action="search">
+			    <form action="search" id="add-compensation">
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">
@@ -173,6 +214,8 @@
 			    			<div class="mb-3">
 							    <label for="amountInput" class="form-label">Amount *</label>
 							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp" step="0.01">
+							     <div id="amountHelp" class="form-text" style="display:none">Amount can be any value except zero.</div>
+							     <div id="amountHelp2" class="form-text" style="display:none">Amount should be greater than zero.</div>
 				  			</div>
 			    		</div>
 			    	</div>
@@ -187,7 +230,6 @@
 			    			<div class="mb-3">
 							    <label for="dateInput" class="form-label">Date *</label>
 							    <input type="date" name="date" class="form-control" id="dateInput" required aria-describedby="dateHelp">
-							    <div id="dateHelp" class="form-text">Text for help.</div>
 				  			</div>
 			    		</div>
 			    	</div>
