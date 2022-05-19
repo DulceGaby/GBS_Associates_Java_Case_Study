@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,8 +9,66 @@
 			    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			    crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<meta charset="ISO-8859-1">
 		<title>Add compensation</title>
+		
+		<script>
+			$(document).ready(function(){
+				$("#typeInput").ready(function(){
+					if($('#typeInput').val() == 'Salary')
+					{
+						alert("Salary");
+						$('#amountInput').prop('min','none');
+						$('#descriptionInput').prop('required',false);
+					}
+					else if($('#typeInput').val() == 'Bonus'){
+						alert("Bonus");
+						$('#descriptionInput').prop('required',true);
+						$('#amountInput').prop('min',1);
+					}
+					else if($('#typeInput').val() == 'Commission'){
+						alert("Commission");
+						$('#descriptionInput').prop('required',true);
+						$('#amountInput').prop('min',1);
+					}
+					else if($('#typeInput').val() == 'Allowance'){
+						alert("Allowance");
+						$('#descriptionInput').prop('required',true);
+						$('#amountInput').prop('min',1);
+					}
+					else{
+						alert("Adjustment");
+						$('#descriptionInput').prop('required',true);
+						$('#amountInput').prop('min',1);
+					}
+				});
+				$("#typeInput").change(function(){
+					if($('#typeInput').val() == 'Salary')
+					{
+						alert("Salary");
+						$('#descriptionInput').prop('required',false);
+					}
+					else if($('#typeInput').val() == 'Bonus'){
+						alert("Bonus");
+						$('#descriptionInput').prop('required',true);
+					}
+					else if($('#typeInput').val() == 'Commission'){
+						alert("Commission");
+						$('#descriptionInput').prop('required',true);
+					}
+					else if($('#typeInput').val() == 'Allowance'){
+						alert("Allowance");
+						$('#descriptionInput').prop('required',true);
+					}
+					else{
+						alert("Adjustment");
+						$('#descriptionInput').prop('required',true);
+					}
+				});
+			});
+		</script>
+		
 	</head>
 	<style>
 		.img-header{
@@ -65,8 +124,7 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:297px">
-			<p id="title-page">Add Employee Compensation Details Result is : <%= request.getAttribute("result") %>
-				Also is : ${result}</p>
+			<p id="title-page">Add Employee Compensation Details</p>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 				  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -84,25 +142,37 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form>
+			    <form action="search">
+			    	<div class="row">
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="typeInput" class="form-label">Employee *</label>
+							    <select class="form-select" id="employeeInput" name="type" required>
+								  <c:forEach items="${employees}" var="employee">
+									  <option value=${employee.id} >${employee.firstName} ${employee.middleName} ${employee.lastName}</option>
+								  </c:forEach>
+								</select>
+				  			</div>
+			    		</div>
+			    	</div>
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="typeInput" class="form-label">Type *</label>
 							    <select class="form-select" id="typeInput" name="type" required>
-								  <option selected>Salary</option>
-								  <option value="1">Bonus</option>
-								  <option value="2">Commission </option>
-								  <option value="3">Allowance</option>
-								  <option value="3">Adjustment</option>
+							    	  <!--  <option selected readonly="readonly" hidden>${compensation.type}</option>-->
+									  <option selected value ="Salary">Salary</option>
+									  <option value="Bonus">Bonus</option>
+									  <option value="Commission">Commission </option>
+									  <option value="Allowance">Allowance</option>
+									  <option value="Adjustment">Adjustment</option>
 								</select>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="amountInput" class="form-label">Amount *</label>
-							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp" min="0">
-				    			<div id="amountHelp" class="form-text">Text for help.</div>
+							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp" step="0.01">
 				  			</div>
 			    		</div>
 			    	</div>
@@ -121,7 +191,6 @@
 				  			</div>
 			    		</div>
 			    	</div>
-			    	
 			    	
 			    	
 				  <a href="#" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
