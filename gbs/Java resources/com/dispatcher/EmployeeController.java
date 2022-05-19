@@ -41,11 +41,6 @@ public class EmployeeController {
 		 return "home";
 	}
 	
-	@RequestMapping("/add-compensation")
-	public String addCompensation() {
-		 return "addCompensation";	
-	}
-	
 	@RequestMapping("/search")
 	public String employees(ModelMap model) {
 		 List<Employee> employees = service.getEmployees();
