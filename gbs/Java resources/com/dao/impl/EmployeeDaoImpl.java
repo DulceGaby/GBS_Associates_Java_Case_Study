@@ -54,4 +54,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public Employee viewEmployee(int id) {
 		return hibernateTemplate.get(Employee.class, id);
 	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public int edit(Employee employee, int id) {
+		hibernateTemplate.update(employee);
+		return 1;
+	}
+
 }

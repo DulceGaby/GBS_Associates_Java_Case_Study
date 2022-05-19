@@ -147,14 +147,67 @@ public class EmployeeController {
 	@RequestMapping(value="/editEmployee", method=RequestMethod.POST)
 	public ModelAndView editEmployee(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
 		
-		System.out.println("ESTOY EN EL CONTROLADOR PARA EDITAR");
-		ModelAndView mv = new ModelAndView();
-		List<Employee> employees = service.getEmployees();
+		//Back-end validation
+		//Request
+		System.out.println("EMPLEADO A EDITAR: "+request.getParameter("id"));
+		int id = Integer.parseInt(request.getParameter("id"));
+        String firstName = request.getParameter("firstName");
+        String middleName = request.getParameter("middleName");
+        String lastName = request.getParameter("lastName");
+        String birthDate = request.getParameter("birthDate");
+        
+		boolean validation = true;
+		String mssg="";
 		
-		mv.setViewName("search");	
-		mv.addObject("employees",employees);
-		mv.addObject("mssg","The employee was added successfully !");
-		return mv;
+		//DATE VALIDATION
+		validation = dateValidation(birthDate);
+		if(validation == false)
+			mssg = "Birth date should not be later than current date and must comply with legal validation. ";
+		
+        //EMPLOYEE VALIDATION
+		
+		ModelAndView mv = new ModelAndView();
+		
+		//Searching the database
+		try {
+			Employee oldEmployee = service.getEmployee(firstName, middleName, lastName, birthDate);
+	        
+	        if(oldEmployee != null && oldEmployee.getId() != id) {
+				mssg +="Employee "+firstName+" "+middleName+" "+lastName+" with date of birth: "+birthDate + " already exists.";
+				validation = false;
+			}  
+		} catch (Exception e) {
+			mv.setViewName("editEmployee");	
+			mv.addObject("employee",employee);
+			mv.addObject("mssg","Something went wrong please try again");
+			return mv;
+		}
+				
+		
+		if(validation == true) {
+			try {
+				service.update(employee,id);				
+				List<Employee> employees = service.getEmployees();
+				
+				mv.setViewName("search");	
+				mv.addObject("employees",employees);
+				mv.addObject("mssg","The employee was edited successfully !");
+				return mv;
+			}catch(Exception e) {
+				mv.setViewName("editEmployee");	
+				mv.addObject("employee",employee);
+				mv.addObject("mssg","Something went wrong please try again 2");
+				return mv;
+			}			
+		}
+		else {
+			mv.setViewName("editEmployee");	
+			mv.addObject("mssg",mssg);
+			Employee oldData = service.viewEmployee(id);
+			//Re-sending data for the original employee
+			mv.addObject("employee",oldData);
+			return mv;
+		}
 	}
 }
 

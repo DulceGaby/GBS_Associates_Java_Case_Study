@@ -98,13 +98,13 @@
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		        <li class="nav-item">
-		          <a class="nav-link active text-op-header" aria-current="page" href="../add-employee">Add Employee</a>
+		          <a class="nav-link active text-op-header" aria-current="page" href="/gbs/add-employee">Add Employee</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="../search">Search Employees</a>
+		          <a class="nav-link text-op-header" href="/gbs/search">Search Employees</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="../add-compensation">Add Compensation</a>
+		          <a class="nav-link text-op-header" href="/gbs/add-compensation">Add Compensation</a>
 		        </li>
 		      </ul>
 		    </div>
@@ -148,7 +148,7 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="uidInput" class="form-label">ID *</label>
-							    <input type="text" value=${employee.id} name="id" class="form-control" id="idInput" aria-describedby="idHelp" disabled>
+							    <input type="text" value=${employee.id} name="id" class="form-control" id="idInput" aria-describedby="idHelp" readonly="readonly">
 				    			<div id="idHelp" class="form-text">ID cannot be edited.</div>
 				  			</div>
 			    		</div>
@@ -186,7 +186,7 @@
 			    			<div class="mb-3">
 							    <label for="positionInput" class="form-label">Position *</label>
 							    <select class="form-select" id="positionInput" name="position" required>
-								  <option selected disabled hidden>${employee.position}</option>
+								  <option selected readonly="readonly" hidden>${employee.position}</option>
 								  <option value="Part-time">Part-time</option>
 								  <option value="Full-time">Full-time</option>
 								  <option value="Seasonal">Seasonal </option>

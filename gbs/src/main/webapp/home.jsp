@@ -182,7 +182,7 @@
 			    			<div class="mb-3">
 							    <label for="positionInput" class="form-label">Position *</label>
 							    <select class="form-select" id="positionInput" name="position" required>
-								  <option selected disabled hidden>${employee.position}</option>
+								  <option selected readonly="readonly" hidden>${employee.position}</option>
 								  <option value="Part-time">Part-time</option>
 								  <option value="Full-time">Full-time</option>
 								  <option value="Seasonal">Seasonal </option>

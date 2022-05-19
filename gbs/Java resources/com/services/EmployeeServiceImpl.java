@@ -45,4 +45,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return dao.viewEmployee(id);
 	}
 
+	@Override
+	public int update(Employee employee, int id) {
+		return dao.edit(employee, id);
+		
+	}
+
 }

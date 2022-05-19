@@ -13,4 +13,6 @@ public interface EmployeeService {
 	Employee getEmployee(String firstName, String middleName, String lastName, String birthDate);
 	
 	Employee viewEmployee(int id);
+	
+	int update(Employee employee, int id);
 }

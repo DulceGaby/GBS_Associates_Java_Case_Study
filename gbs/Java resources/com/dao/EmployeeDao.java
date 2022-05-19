@@ -13,4 +13,6 @@ public interface EmployeeDao {
 	Employee findEmployee(String firstName, String middleName, String lastName, String birthDate);
 	
 	Employee viewEmployee(int id);
+	
+	int edit(Employee employee, int id);
 }
