@@ -64,14 +64,32 @@ public class CompensationController {
 		int idEmployee = Integer.parseInt(request.getParameter("idEmployee"));
 		float amount = Float.parseFloat(request.getParameter("amount"));
 		
+		String recordDate, recordYear, recordMonth, dateYear, dateMonth;
+		dateYear = date.substring(0,4);
+		dateMonth = date.substring(5,7);
+		
 		String mssg = "";
-		System.out.println(compensation);
 		
 		//COMPENSATION VALIDATION
 		if(type.equals("Salary")) {
 			//Check if there is not another compensation in the same month
+			List<Compensation> compensations = cservice.getCompensationPerEmployee(idEmployee);
+			boolean records = compensations.isEmpty();
 			
-			mssg = "Only one salary entry per employee per month can be added. ";
+			if(records == false) {
+				//Check for each date, year and month only
+				System.out.println(compensations);
+				
+				for (Compensation comp : compensations) {
+					recordDate = comp.getDate();
+					recordYear = recordDate.substring(0,4);
+					recordMonth = recordDate.substring(5,7);
+					
+					if(dateYear.equals(recordYear))
+						if(dateMonth.equals(recordMonth))
+							mssg = "Only one salary entry per employee per month can be added. ";
+				}
+			}		
 		}
 		else if (type.equals("Adjustment")) {
 			//Check if the amount is different than zero

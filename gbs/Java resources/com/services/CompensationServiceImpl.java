@@ -1,5 +1,7 @@
 package com.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,11 @@ public class CompensationServiceImpl implements CompensationService {
 	public int save(Compensation compensation) {
 		return dao.create(compensation);
 	}
+
+	@Override
+	public List<Compensation> getCompensationPerEmployee(int idEmployee) {
+		return dao.findPerEmployee(idEmployee);
+	}
+
 
 }
