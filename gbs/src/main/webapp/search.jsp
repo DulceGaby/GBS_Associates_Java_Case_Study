@@ -143,7 +143,7 @@
 				      <td>${employee.middleName}</td>
 				      <td>${employee.position}</td>
 				      <td scope="row">
-				      	<a href="view-compensation">
+				      	<a href="view-compensation/${employee.id}">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
 						</a>
 				      </td>

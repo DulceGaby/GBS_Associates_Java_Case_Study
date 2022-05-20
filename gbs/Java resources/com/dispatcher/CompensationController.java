@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,9 +51,35 @@ public class CompensationController {
 		 return "addCompensation";	
 	}
 	
-	@RequestMapping("/view-compensation")
-	public String viewCompensation() {
-		 return "compensationHistory";
+	@RequestMapping(value = "/view-compensation/{id}", method = RequestMethod.GET)
+	 public String viewCompensation(@PathVariable("id") int id, ModelMap model) {
+		  List<Compensation> compensations = cservice.getCompensationPerEmployee(id);
+		  boolean records = compensations.isEmpty();
+		  Employee employee = service.viewEmployee(id);
+		  String mssg="", recordDate, recordYear, recordMonth;
+		  
+		  if(records == true) {
+			  mssg="Nothing to show";
+			  model.addAttribute("mssg", mssg);
+		  }
+		  else {
+			  //Agrupar por mes
+			  
+			  for (Compensation comp : compensations) {
+					recordDate = comp.getDate();
+					recordYear = recordDate.substring(0,4);
+					recordMonth = recordDate.substring(5,7);
+//					Arreglo de años, con meses y monto
+			  }
+			  
+			  
+			  
+			  System.out.println(compensations+"aaa");
+			  model.addAttribute("compensations", compensations);
+			  model.addAttribute("employee", employee);
+		  }
+		  
+		  return "../compensationHistory";
 	}
 	
 	@RequestMapping(value="/addCompensation", method=RequestMethod.POST)
@@ -115,7 +142,8 @@ public class CompensationController {
 		if(mssg == "") {
 			try {		
 				cservice.save(compensation);
-				mv.setViewName("compensationHistory");	
+				mv.setViewName("search");	
+				mv.addObject("employees",employees);
 				mv.addObject("mssg","The compensation was added successfully!");
 				
 			}catch(Exception e) {
