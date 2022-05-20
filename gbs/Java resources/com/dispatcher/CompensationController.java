@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dto.Compensation;
 import com.dto.Employee;
+import com.services.CompensationService;
 import com.services.EmployeeService;
 
 @Controller
@@ -31,6 +32,17 @@ public class CompensationController {
 		this.service = service;
 	}
 	
+	@Autowired
+	private CompensationService cservice;
+	
+	public CompensationService getCservice() {
+		return cservice;
+	}
+
+	public void setCservice(CompensationService cservice) {
+		this.cservice = cservice;
+	}
+
 	@RequestMapping("/add-compensation")
 	public String addCompensation(ModelMap model) {
 		 List<Employee> employees = service.getEmployees();
@@ -58,19 +70,24 @@ public class CompensationController {
 		//COMPENSATION VALIDATION
 		if(type.equals("Salary")) {
 			//Check if there is not another compensation in the same month
+			
 			mssg = "Only one salary entry per employee per month can be added. ";
 		}
 		else if (type.equals("Adjustment")) {
 			//Check if the amount is different than zero
-			mssg = "Amount can be any value except zero. ";
+			if(amount == 0)
+				mssg = "Amount can be any value except zero. ";
 			//Check if there is a description
-			mssg += "Description is required. ";
+			if(description == "")
+				mssg += "Description is required. ";
 		}
 		else {
 			//Check if the amount is greater than zero
-			mssg = "Amount should be greater than zero. ";
+			if(amount <= 0)
+				mssg = "Amount should be greater than zero. ";
 			//Check if there is a description
-			mssg += "Description is required. ";
+			if(description == "")
+				mssg += "Description is required. ";
 		}
 		
 		ModelAndView mv = new ModelAndView();
@@ -78,11 +95,10 @@ public class CompensationController {
 		Employee employee = service.viewEmployee(idEmployee);
 		
 		if(mssg == "") {
-			try {
-				//service.update(employee,id);				
-				
+			try {		
+				cservice.save(compensation);
 				mv.setViewName("compensationHistory");	
-				mv.addObject("mssg","The compensation was added successfully !");
+				mv.addObject("mssg","The compensation was added successfully!");
 				
 			}catch(Exception e) {
 				

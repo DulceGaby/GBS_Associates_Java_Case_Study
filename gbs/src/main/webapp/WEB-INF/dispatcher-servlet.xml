@@ -39,6 +39,7 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.dto.Employee</value>
+				<value>com.dto.Compensation</value>
 			</list>
 		</property>
 	</bean>
