@@ -51,6 +51,15 @@ public class CompensationController {
 		 return "addCompensation";	
 	}
 	
+	@RequestMapping("/edit-compensation/{id}")
+	public String editCompensation(@PathVariable("id") int id, ModelMap model) {
+		 Compensation compensation = cservice.findCompensation(id);
+		 Employee employee = service.viewEmployee(compensation.getIdEmployee());
+		 model.addAttribute("compensation", compensation);
+		 model.addAttribute("employee", employee);
+		 return "../editCompensation";	
+	}
+	
 	@RequestMapping(value = "/view-compensation/{id}", method = RequestMethod.GET)
 	 public String viewCompensation(@PathVariable("id") int id, ModelMap model) {
 		  List<Compensation> compensations = cservice.getCompensationPerEmployee(id);

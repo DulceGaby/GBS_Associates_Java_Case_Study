@@ -82,7 +82,7 @@
 						$("#amountHelp").css("display", "block");
 						$("#amountHelp2").css("display", "none");
 					}
-					else if(amount <= 0){
+					else if(amount <= 0 && $('#typeInput').val() != 'Adjustment'){
 						if($('#typeInput').val() == 'Bonus' || $('#typeInput').val() == 'Commission' || $('#typeInput').val() == 'Allowance'){
 							$("#amountHelp2").css("display", "block");
 							$("#amountHelp").css("display", "none");
@@ -154,13 +154,13 @@
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		        <li class="nav-item">
-		          <a class="nav-link active text-op-header" aria-current="page" href="add-employee">Add Employee</a>
+		          <a class="nav-link active text-op-header" aria-current="page" href="/gbs/add-employee">Add Employee</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="search">Search Employees</a>
+		          <a class="nav-link text-op-header" href="/gbs/search">Search Employees</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="add-compensation">Add Compensation</a>
+		          <a class="nav-link text-op-header" href="/gbs/add-compensation">Add Compensation</a>
 		        </li>
 		      </ul>
 		    </div>
@@ -168,7 +168,7 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:297px">
-			<p id="title-page">Add Employee Compensation Details</p>
+			<p id="title-page">Add Employee Compensation</p>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 				  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
