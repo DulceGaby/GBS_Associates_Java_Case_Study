@@ -191,7 +191,7 @@ public class EmployeeController {
 			}catch(Exception e) {
 				mv.setViewName("editEmployee");	
 				mv.addObject("employee",employee);
-				mv.addObject("mssg","Something went wrong please try again 2");
+				mv.addObject("mssg","Something went wrong please try again");
 				return mv;
 			}			
 		}

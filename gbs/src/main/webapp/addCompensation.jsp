@@ -141,6 +141,9 @@
 		.form-text{
 			color:#dc3545;
 		}
+		textarea{
+			resize:none;
+		}
 	</style>
 	<body>
 	
@@ -173,24 +176,31 @@
 				  </symbol>
 				</svg>			
 				
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				  <div style="display:flex; align-items:center">
-				  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-				    There is an error adding the new employee
-				  </div>
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
+				<%
+			        if(request.getAttribute("mssg") != null)  {
+			    %>            
+			        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
+					  <div style="display:flex; align-items:center">
+					  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					    ${mssg}
+					  </div>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+			    <%
+			        } 
+			    %>
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form action="search" id="add-compensation">
+			    <form action="addCompensation" id="add-compensation" method="post">
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="typeInput" class="form-label">Employee *</label>
-							    <select class="form-select" id="employeeInput" name="type" required>
+							    <select class="form-select" id="employeeInput" name="idEmployee" required>
+							      <option selected readonly="readonly" hidden value=${employee.id}>${employee.firstName} ${employee.middleName} ${employee.lastName}: ${employee.birthDate}</option>
 								  <c:forEach items="${employees}" var="employee">
-									  <option value=${employee.id} >${employee.firstName} ${employee.middleName} ${employee.lastName}</option>
+									  <option value=${employee.id} >${employee.firstName} ${employee.middleName} ${employee.lastName}: ${employee.birthDate}</option>
 								  </c:forEach>
 								</select>
 				  			</div>
@@ -201,8 +211,8 @@
 			    			<div class="mb-3">
 							    <label for="typeInput" class="form-label">Type *</label>
 							    <select class="form-select" id="typeInput" name="type" required>
-							    	  <!--  <option selected readonly="readonly" hidden>${compensation.type}</option>-->
-									  <option selected value ="Salary">Salary</option>
+							    	  <option selected readonly="readonly" hidden>${compensation.type}</option>
+									  <option value ="Salary">Salary</option>
 									  <option value="Bonus">Bonus</option>
 									  <option value="Commission">Commission </option>
 									  <option value="Allowance">Allowance</option>
@@ -213,7 +223,7 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="amountInput" class="form-label">Amount *</label>
-							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp" step="0.01">
+							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp" step="0.01" value=${compensation.amount}>
 							     <div id="amountHelp" class="form-text" style="display:none">Amount can be any value except zero.</div>
 							     <div id="amountHelp2" class="form-text" style="display:none">Amount should be greater than zero.</div>
 				  			</div>
@@ -223,17 +233,16 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="descriptionInput" class="form-label">Description</label>
-							    <input type="text" name="description" class="form-control" id="descriptionInput" aria-describedby="descriptionHelp">
+							    <textarea type="text" name="description" class="form-control" id="descriptionInput">${compensation.description}</textarea>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="dateInput" class="form-label">Date *</label>
-							    <input type="date" name="date" class="form-control" id="dateInput" required aria-describedby="dateHelp">
+							    <input type="date" name="date" class="form-control" id="dateInput" required aria-describedby="dateHelp" value=${compensation.date}>
 				  			</div>
 			    		</div>
 			    	</div>
-			    	
 			    	
 				  <a href="#" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
 				  <button type="submit" class="btn btn-primary btn-form mt-3 mb-3">Submit</button>
