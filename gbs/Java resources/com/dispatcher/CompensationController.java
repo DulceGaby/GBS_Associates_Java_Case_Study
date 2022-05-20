@@ -92,7 +92,7 @@ public class CompensationController {
 	}
 	
 	@RequestMapping(value="/addCompensation", method=RequestMethod.POST)
-	public ModelAndView addCompensationStore(@ModelAttribute("employee") Compensation compensation, HttpServletRequest request) throws ParseException {
+	public ModelAndView addCompensationStore(@ModelAttribute("compensation") Compensation compensation, HttpServletRequest request) throws ParseException {
 		
 		String type = request.getParameter("type");
 		String description = request.getParameter("description");
@@ -114,7 +114,6 @@ public class CompensationController {
 			
 			if(records == false) {
 				//Check for each date, year and month only
-				System.out.println(compensations);
 				
 				for (Compensation comp : compensations) {
 					recordDate = comp.getDate();
@@ -173,5 +172,61 @@ public class CompensationController {
 		}
 
 		return mv;
+	}
+	
+	@RequestMapping(value="/editCompensation", method=RequestMethod.POST)
+	public ModelAndView editCompensationStore(@ModelAttribute("compensation") Compensation compensation, HttpServletRequest request) throws ParseException {
+		String type = request.getParameter("type");
+		String description = request.getParameter("description");
+		int idEmployee = Integer.parseInt(request.getParameter("idEmployee"));
+		int id = Integer.parseInt(request.getParameter("id"));
+		float amount = Float.parseFloat(request.getParameter("amount"));
+		
+		String mssg = "";
+		
+		//COMPENSATION VALIDATION
+		if (type.equals("Adjustment")) {
+			//Check if the amount is different than zero
+			if(amount == 0)
+				mssg = "Amount can be any value except zero. ";
+			//Check if there is a description
+			if(description == "")
+				mssg += "Description is required. ";
+		}
+		else if(type.equals("Allowance") || type.equals("Bonus") || type.equals("Commission")) {
+			//Check if the amount is greater than zero
+			if(amount <= 0)
+				mssg = "Amount should be greater than zero. ";
+			//Check if there is a description
+			if(description == "")
+				mssg += "Description is required. ";
+		}
+		
+		ModelAndView mv = new ModelAndView();
+		List<Employee> employees = service.getEmployees();
+		Employee employee = service.viewEmployee(idEmployee);
+		if(mssg == "") {
+			try {		
+				cservice.update(compensation, id);
+				mv.setViewName("search");	
+				mv.addObject("employees",employees);
+				mv.addObject("mssg","The compensation was added successfully!");
+				
+			}catch(Exception e) {
+				
+				mv.setViewName("editCompensation");	
+				mv.addObject("mssg","Something went wrong please try again");
+				mv.addObject("employee",employee);
+				mv.addObject("compensation",compensation);
+			}
+		}
+		else {
+			mv.setViewName("editCompensation");	
+			mv.addObject("mssg",mssg);
+			mv.addObject("employee",employee);
+			mv.addObject("compensation",compensation);
+		}
+
+		return mv;		
 	}
 }

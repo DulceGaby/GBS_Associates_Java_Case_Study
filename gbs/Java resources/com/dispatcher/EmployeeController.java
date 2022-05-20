@@ -144,7 +144,6 @@ public class EmployeeController {
 		
 		//Back-end validation
 		//Request
-		System.out.println("EMPLEADO A EDITAR: "+request.getParameter("id"));
 		int id = Integer.parseInt(request.getParameter("id"));
         String firstName = request.getParameter("firstName");
         String middleName = request.getParameter("middleName");

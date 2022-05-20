@@ -48,5 +48,12 @@ public class CompensationImpl implements CompensationDao {
 	    return (List<Compensation>) getHibernateTemplate().findByCriteria(criteria);
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public int edit(Compensation compensation, int id) {
+		hibernateTemplate.update(compensation);
+		return 1;
+	}
+
 
 }

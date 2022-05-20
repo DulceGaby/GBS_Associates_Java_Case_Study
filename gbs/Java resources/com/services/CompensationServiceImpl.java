@@ -37,5 +37,10 @@ public class CompensationServiceImpl implements CompensationService {
 		return dao.findPerEmployee(idEmployee);
 	}
 
+	@Override
+	public int update(Compensation compensation, int id) {
+		return dao.edit(compensation, id);
+	}
+
 
 }

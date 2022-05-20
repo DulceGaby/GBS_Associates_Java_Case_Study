@@ -10,5 +10,7 @@ public interface CompensationService {
 
 	Compensation findCompensation(int id);
 	
-	List<Compensation> getCompensationPerEmployee(int idEmployee);
+	List<Compensation> getCompensationPerEmployee(int idEmployee); 
+	
+	int update(Compensation compensation, int id);
 }
