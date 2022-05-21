@@ -8,8 +8,56 @@
 			    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			    crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<meta charset="ISO-8859-1">
 		<title>Home</title>
+		
+		<script>
+		$(document).ready(function(){
+			$("#start-date").change(function(){
+				var startDate = $("#start-date").val();
+				
+				var endDate = $("#end-date").val();
+				
+				if(endDate != "" && startDate != ""){
+					var start = Date.parse(startDate);
+					var end = Date.parse(endDate);
+					var difference= (end-start);
+					var days = difference/(1000 * 3600 * 24);
+					if(days<=0)
+						$("#help").css("display", "block");
+					else
+						$("#help").css("display", "none");
+				}
+			});
+			
+			$("#end-date").change(function(){
+				var startDate = $("#start-date").val();
+				var endDate = $("#end-date").val();
+				if(startDate != "" && endDate != ""){
+					var start = Date.parse(startDate);
+					var end = Date.parse(endDate);
+					var difference= (end-start);
+					var days = difference/(1000 * 3600 * 24);
+					if(days<=0)
+						$("#help").css("display", "block");
+					else
+						$("#help").css("display", "none");
+				}
+			});
+			
+			$("#history-form").change(function(){
+				if($('#help').css('display') == 'block')
+				{
+					$(':input[type="submit"]').prop('disabled', true);
+				}
+				else{
+					$(':input[type="submit"]').prop('disabled', false);
+				}
+			});
+		});
+		</script>
+		
 	</head>
 	<style>
 		.img-header{
@@ -47,7 +95,6 @@
 		.form-search{
 			display:flex;
 			align-items:center;
-			justify-content:flex-end;
 		}
 	</style>
 	<body>
@@ -105,25 +152,30 @@
 			<div class="card">
 			  <div class="card-body">
 			    
-			    <form>
+			    <form id="history-form">
 				    <div class="row mb-4 form-search">
 				    	
 				    	<div class="col-2">
 				    		<div class="form-floating">
-							  <input type="date" class="form-control" id="floatingInput1" name="start-date">
-							  <label for="floatingInput1">Start date</label>
+							  <input type="date" class="form-control" id="start-date" name="start-date">
+							  <label for="date">Start date</label>
 							</div>
 				    	</div>
 				    	<div class="col-2">
 				    		<div class="form-floating">
-							  <input type="date" class="form-control" id="floatingInput2" name="end-date">
-							  <label for="floatingInput2">End date</label>
+							  <input type="date" class="form-control" id="end-date" name="end-date">
+							  <label for="end-date">End date</label>
 							</div>
 				    	</div>
-				    	<div class="col-1">
-				    		<button type="submit" class="btn btn-primary btn-form">Submit</button>
+				    	<div class="col-1" style="display:flex;justify-content:flex-end; align-items:center;">
+				    		<a href="../view-compensation/${employee.id}" id="clear" class="link-dark" style="margin-right:15px; text-decoration:none; cursor:pointer">Clear</a>
 				    	</div>
+				    	<div class="col-1">
+				    		<button type="submit" class="btn btn-primary btn-form">Search</button>
+				    	</div>
+				    	<div id="help" class="form-text" style="display:none;color:#dc3545;">Cannot enter an end date that occurs before start date.</div>
 				    </div>
+				    
 			    </form>
 			    
 			    
