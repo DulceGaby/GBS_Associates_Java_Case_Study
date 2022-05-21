@@ -57,7 +57,7 @@ public class EmployeeController {
 		
 		List<Employee> employees = service.filterEmployees(firstName, lastName, position);
 		boolean records = employees.isEmpty();
-		String mssg2 = "Nothing to show";
+		String mssg2 = "0 results found";
 		
 		if(records == true) {
 			model.addAttribute("mssg2", mssg2);

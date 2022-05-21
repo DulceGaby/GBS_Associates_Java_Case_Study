@@ -68,7 +68,7 @@ public class CompensationController {
 		  String mssg="", recordDate, recordYear, recordMonth;
 		  
 		  if(records == true) {
-			  mssg="Nothing to show";
+			  mssg="0 results found";
 			  model.addAttribute("mssg", mssg);
 		  }
 		  else {
