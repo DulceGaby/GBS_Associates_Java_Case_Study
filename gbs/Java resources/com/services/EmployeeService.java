@@ -10,6 +10,8 @@ public interface EmployeeService {
 	
 	List<Employee> getEmployees();
 	
+	List<Employee> filterEmployees(String firstName, String lastName, String position);
+	
 	Employee getEmployee(String firstName, String middleName, String lastName, String birthDate);
 	
 	Employee viewEmployee(int id);

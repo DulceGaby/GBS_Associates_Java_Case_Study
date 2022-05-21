@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.EmployeeDao;
+import com.dto.Compensation;
 import com.dto.Employee;
 
 
@@ -60,6 +61,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public int edit(Employee employee, int id) {
 		hibernateTemplate.update(employee);
 		return 1;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Employee> filterEmployees(String firstName, String lastName, String position) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
+	    if(firstName != "")
+	    	criteria.add(Restrictions.eq("firstName", firstName));
+	    if(lastName != "")
+	    	criteria.add(Restrictions.eq("lastName", lastName));
+	    if(position != "")
+	    	criteria.add(Restrictions.eq("position", position));
+	    return (List<Employee>) getHibernateTemplate().findByCriteria(criteria);
 	}
 
 }

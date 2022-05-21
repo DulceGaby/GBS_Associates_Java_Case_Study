@@ -48,6 +48,29 @@ public class EmployeeController {
 		 return "search";	
 	}
 	
+	@RequestMapping("/search-filter")
+	public String employeesSearch(ModelMap model, HttpServletRequest request) {
+
+		String firstName = request.getParameter("firstName"); 
+		String lastName = request.getParameter("lastName"); 
+		String position = request.getParameter("position"); 
+		
+		List<Employee> employees = service.filterEmployees(firstName, lastName, position);
+		boolean records = employees.isEmpty();
+		String mssg2 = "Nothing to show";
+		
+		if(records == true) {
+			model.addAttribute("mssg2", mssg2);
+		}	
+		
+		model.addAttribute("employees", employees);
+		model.addAttribute("firstName", firstName);
+		model.addAttribute("lastName", lastName);
+		model.addAttribute("position", position);
+		
+		return "search";	
+	}
+	
 
 	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
 	 public String viewEmployee(@PathVariable("id") int id, ModelMap model) {

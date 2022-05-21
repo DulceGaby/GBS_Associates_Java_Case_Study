@@ -10,6 +10,8 @@ public interface EmployeeDao {
 	
 	List<Employee> findEmployees();
 	
+	List<Employee> filterEmployees(String firstName, String lastName, String position);
+	
 	Employee findEmployee(String firstName, String middleName, String lastName, String birthDate);
 	
 	Employee viewEmployee(int id);
