@@ -112,6 +112,7 @@
 				  <thead>
 				    <tr>
 				      <th scope="col"></th>
+				      <th scope="col">ID</th>
 				      <th scope="col">Date</th>
 				      <th scope="col">Type</th>
 				      <th scope="col">Amount</th>
@@ -127,6 +128,7 @@
 						      	<button type="button" class="btn btn-primary btn-form font-10">EDIT</button>
 							</a>
 					      </td>
+					      <td>${compensation.id}</td>
 					      <td>${compensation.date}</td>
 					      <td>${compensation.type}</td>
 					      <td>$${compensation.amount}</td>

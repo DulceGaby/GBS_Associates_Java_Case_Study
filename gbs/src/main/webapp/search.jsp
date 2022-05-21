@@ -192,7 +192,7 @@
 				  <thead>
 				    <tr>
 				      <th scope="col"></th>
-				      <th scope="col">UID</th>
+				      <th scope="col">ID</th>
 				      <th scope="col">First Name</th>
 				      <th scope="col">Middle Name</th>
 				      <th scope="col">Last Name</th>
