@@ -60,7 +60,7 @@ public class CompensationController {
 		 return "../editCompensation";	
 	}
 	
-	@RequestMapping(value = "/view-compensation/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/view-compensation/{id}")
 	 public String viewCompensation(@PathVariable("id") int id, ModelMap model) {
 		  List<Compensation> compensations = cservice.getCompensationPerEmployee(id);
 		  boolean records = compensations.isEmpty();
@@ -90,6 +90,36 @@ public class CompensationController {
 		  
 		  return "../compensationHistory";
 	}
+	
+	@RequestMapping(value = "/view-compensation-month/{id}", method = RequestMethod.GET)
+	 public String viewCompensationMonth(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
+		Employee employee = service.viewEmployee(id);
+		List<Compensation> compensations = cservice.getCompensationPerEmployee(id);
+		boolean records = compensations.isEmpty();
+		String mssg = "";
+		
+		if(records == true) {
+		  mssg="0 results found";
+		  model.addAttribute("mssg", mssg);
+		}
+		
+		System.out.println(compensations);
+		
+		String month = "March";
+		String year = "2021";
+		float total = 0;
+		
+		
+		
+		model.addAttribute("employee", employee);
+		model.addAttribute("compensations", compensations);
+		model.addAttribute("month", month);
+		model.addAttribute("year", year);
+		model.addAttribute("total", total);
+		return "../compensationMonth";
+	}
+	
+	
 	
 	@RequestMapping(value="/addCompensation", method=RequestMethod.POST)
 	public ModelAndView addCompensationStore(@ModelAttribute("compensation") Compensation compensation, HttpServletRequest request) throws ParseException {

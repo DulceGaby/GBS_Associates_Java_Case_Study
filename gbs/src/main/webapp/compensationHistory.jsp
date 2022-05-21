@@ -190,7 +190,7 @@
 				  <tbody>
 				    <tr>
 				      <td scope="row">
-				      	<a>
+				      	<a href="../view-compensation-month/24">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>
