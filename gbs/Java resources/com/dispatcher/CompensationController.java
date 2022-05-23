@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dto.Compensation;
+import com.dto.CompensationOrg;
 import com.dto.Employee;
 import com.services.CompensationService;
 import com.services.EmployeeService;
@@ -67,68 +68,48 @@ public class CompensationController {
 		  boolean records = compensations.isEmpty();
 		  Employee employee = service.viewEmployee(id);
 		  String mssg="", recordDate, recordYear, recordMonth;
+		  List<CompensationOrg> compensationsMonth = new ArrayList<>();
+		  
 		  
 		  if(records == true) {
 			  mssg="0 results found";
 			  model.addAttribute("mssg", mssg);
 		  }
 		  else {
-			  //Agrupar por mes
-			  
+			  //Group by month and year
 			  for (Compensation comp : compensations) {
 					recordDate = comp.getDate();
 					recordYear = recordDate.substring(0,4);
 					recordMonth = recordDate.substring(5,7);
-//					Arreglo de años, con meses y monto
+					
+					//Case 0
+					if(compensationsMonth.isEmpty() == true) {
+						compensationsMonth.add(new CompensationOrg(recordMonth, monthText(recordMonth), recordYear, comp.getAmount()));
+					}
+					else {
+						boolean add = false;
+						for (CompensationOrg compensationOrg : compensationsMonth) {
+							if(compensationOrg.getMonth().equals(recordMonth) && compensationOrg.getYear().equals(recordYear)) {
+								//If there is another info in the same date, just add the amount
+								compensationOrg.setAmount(compensationOrg.getAmount() + comp.getAmount());
+							}
+							else {
+								add = true;
+								break;
+							}
+						}
+						if(add == true)
+							//Adding the new info
+							compensationsMonth.add(new CompensationOrg(recordMonth, monthText(recordMonth), recordYear, comp.getAmount()));
+					}					
 			  }
-			  
-			  
-			  
-			  System.out.println(compensations+"aaa");
-			  model.addAttribute("compensations", compensations);
-			  
+			  model.addAttribute("compensations", compensationsMonth);
 		  }
 		  model.addAttribute("employee", employee);
 		  return "../compensationHistory";
 	}
 	
-	@RequestMapping(value = "/view-compensation-month/{id}", method = RequestMethod.GET)
-	 public String viewCompensationMonth(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
-		Employee employee = service.viewEmployee(id);
-		List<Compensation> compensations = cservice.getCompensationsEmployee(id);
-		List<Compensation> compensationsMonth = new ArrayList<>();
-		
-		boolean records = compensations.isEmpty();
-		String mssg = ""; 
-		String recordDate, recordYear, recordMonth;
-		String month = "05";
-		String year = "2022";
-		float total = 0;
-		
-		if(records == true) {
-		  mssg="0 results found";
-		  model.addAttribute("mssg", mssg);
-		}
-		else {
-			for (Compensation comp : compensations) {
-				recordDate = comp.getDate();
-				recordYear = recordDate.substring(0,4);
-				recordMonth = recordDate.substring(5,7);
-				
-				if(recordYear.equals(year) && recordMonth.equals(month)) {
-					System.out.println("Si corresponde a la fecha y se agregara a la nueva lista-----------");
-					compensationsMonth.add(comp);
-					total += comp.getAmount();
-				}
-			}
-		}
-		
-		records = compensationsMonth.isEmpty();
-		if(records == true) {
-			  mssg="0 results found";
-			  model.addAttribute("mssg", mssg);
-		}
-		
+	public String monthText(String month) {
 		switch(month) {
 			case "01":
 				month = "January";
@@ -169,10 +150,54 @@ public class CompensationController {
 			default:
 				month = "-";
 		}
+		return month;
+	}
+	
+	@RequestMapping(value = "/view-compensation-month/{key}", method = RequestMethod.GET)
+	 public String viewCompensationMonth(@PathVariable("key") String key, ModelMap model, HttpServletRequest request) {
+		
+		String[] a = key.split(":");
+		int id=Integer.parseInt(a[0]);
+		Employee employee = service.viewEmployee(id);
+		List<Compensation> compensations = cservice.getCompensationsEmployee(id);
+		List<Compensation> compensationsMonth = new ArrayList<>();
+		
+		boolean records = compensations.isEmpty();
+		String mssg = ""; 
+		String recordDate, recordYear, recordMonth;
+		String month = a[1];
+		String year = a[2];
+		float total = 0;
+		
+		if(records == true) {
+		  mssg="0 results found";
+		  model.addAttribute("mssg", mssg);
+		}
+		else {
+			for (Compensation comp : compensations) {
+				recordDate = comp.getDate();
+				recordYear = recordDate.substring(0,4);
+				recordMonth = recordDate.substring(5,7);
+				
+				if(recordYear.equals(year) && recordMonth.equals(month)) {
+					compensationsMonth.add(comp);
+					total += comp.getAmount();
+				}
+			}
+		}
+		
+		records = compensationsMonth.isEmpty();
+		if(records == true) {
+			  mssg="0 results found";
+			  model.addAttribute("mssg", mssg);
+		}
+		
+		String monthText = monthText(month);
 		
 		model.addAttribute("employee", employee);
 		model.addAttribute("compensations", compensationsMonth);
 		model.addAttribute("month", month);
+		model.addAttribute("monthText", monthText);
 		model.addAttribute("year", year);
 		model.addAttribute("total", total);
 		return "../compensationMonth";

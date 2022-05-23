@@ -82,7 +82,7 @@
 				</a>
 				<p id="title-page">Compensation Breakdown for : ${employee.firstName} ${employee.middleName} ${employee.lastName}</p>
 			</div>
-			<p>${month} / ${year} </p>
+			<p>${monthText} / ${year} </p>
 			
 			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 			  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">

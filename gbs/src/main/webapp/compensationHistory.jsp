@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -188,33 +189,17 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr>
-				      <td scope="row">
-				      	<a href="../view-compensation-month/${employee.id}">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
-						</a>
-				      </td>
-				      <td>January / 2022</td>
-				      <td>$ 10023.00</td>
-				    </tr>
-				    <tr>
-				      <td scope="row">
-				      	<a>
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
-						</a>
-				      </td>
-				      <td>January / 2022</td>
-				      <td>$ 10023.00</td>
-				    </tr>
-				    <tr>
-				      <td scope="row">
-				      	<a>
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
-						</a>
-				      </td>
-				      <td>January / 2022</td>
-				      <td>$ 10023.00</td>
-				    </tr>
+				    <c:forEach items="${compensations}" var="compensation">
+					    <tr>
+					      <td scope="row">
+					      	<a href="../view-compensation-month/${employee.id}:${compensation.month}:${compensation.year}">
+						      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
+							</a>
+					      </td>
+					      <td>${compensation.monthText}/${compensation.year}</td>
+					      <td>$${compensation.amount}</td>
+					    </tr>
+				    </c:forEach>
 				  </tbody>
 				</table>
 			  </div>
