@@ -143,6 +143,7 @@
 				    <td></td>
 				    <td></td>
 				    <td></td>
+				    <td></td>
 				    <td><b>Total: $${total}</b></td>
 				    <td></td>
 				    </tr>

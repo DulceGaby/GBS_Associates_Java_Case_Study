@@ -1,6 +1,7 @@
 package com.dispatcher;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,7 @@ public class CompensationController {
 	
 	@RequestMapping(value = "/view-compensation/{id}")
 	 public String viewCompensation(@PathVariable("id") int id, ModelMap model) {
-		  List<Compensation> compensations = cservice.getCompensationPerEmployee(id);
+		  List<Compensation> compensations = cservice.getCompensationsEmployee(id);
 		  boolean records = compensations.isEmpty();
 		  Employee employee = service.viewEmployee(id);
 		  String mssg="", recordDate, recordYear, recordMonth;
@@ -85,34 +86,92 @@ public class CompensationController {
 			  
 			  System.out.println(compensations+"aaa");
 			  model.addAttribute("compensations", compensations);
-			  model.addAttribute("employee", employee);
+			  
 		  }
-		  
+		  model.addAttribute("employee", employee);
 		  return "../compensationHistory";
 	}
 	
 	@RequestMapping(value = "/view-compensation-month/{id}", method = RequestMethod.GET)
 	 public String viewCompensationMonth(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Employee employee = service.viewEmployee(id);
-		List<Compensation> compensations = cservice.getCompensationPerEmployee(id);
+		List<Compensation> compensations = cservice.getCompensationsEmployee(id);
+		List<Compensation> compensationsMonth = new ArrayList<>();
+		
 		boolean records = compensations.isEmpty();
-		String mssg = "";
+		String mssg = ""; 
+		String recordDate, recordYear, recordMonth;
+		String month = "05";
+		String year = "2022";
+		float total = 0;
 		
 		if(records == true) {
 		  mssg="0 results found";
 		  model.addAttribute("mssg", mssg);
 		}
+		else {
+			for (Compensation comp : compensations) {
+				recordDate = comp.getDate();
+				recordYear = recordDate.substring(0,4);
+				recordMonth = recordDate.substring(5,7);
+				
+				if(recordYear.equals(year) && recordMonth.equals(month)) {
+					System.out.println("Si corresponde a la fecha y se agregara a la nueva lista-----------");
+					compensationsMonth.add(comp);
+					total += comp.getAmount();
+				}
+			}
+		}
 		
-		System.out.println(compensations);
+		records = compensationsMonth.isEmpty();
+		if(records == true) {
+			  mssg="0 results found";
+			  model.addAttribute("mssg", mssg);
+		}
 		
-		String month = "March";
-		String year = "2021";
-		float total = 0;
-		
-		
+		switch(month) {
+			case "01":
+				month = "January";
+			break;
+			case "02":
+				month = "February";
+			break;
+			case "03":
+				month = "March";
+			break;
+			case "04":
+				month = "April";
+			break;
+			case "05":
+				month = "May";
+			break;
+			case "06":
+				month = "June";
+			break;
+			case "07":
+				month = "July";
+			break;
+			case "08":
+				month = "August";
+			break;
+			case "09":
+				month = "September";
+			break;
+			case "10":
+				month = "October";
+			break;
+			case "11":
+				month = "November";
+			break;
+			case "12":
+				month = "December";
+			break;	
+			default:
+				month = "-";
+		}
 		
 		model.addAttribute("employee", employee);
-		model.addAttribute("compensations", compensations);
+		model.addAttribute("compensations", compensationsMonth);
 		model.addAttribute("month", month);
 		model.addAttribute("year", year);
 		model.addAttribute("total", total);

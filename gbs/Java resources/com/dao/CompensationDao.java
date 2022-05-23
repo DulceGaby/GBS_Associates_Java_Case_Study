@@ -12,5 +12,7 @@ public interface CompensationDao {
 	
 	List<Compensation> findPerEmployee(int idEmployee); 
 	
+	List<Compensation> compensationsEmployee(int idEmployee); 
+	
 	int edit(Compensation compensation, int id);
 }

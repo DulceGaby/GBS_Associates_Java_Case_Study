@@ -138,7 +138,7 @@
 				<%
 			        if(request.getAttribute("mssg") != null)  {
 			    %>            
-			        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
+			        <div class="alert alert-warning alert-dismissible fade show" role="alert"  id="alert">
 					  <div style="display:flex; align-items:center">
 					  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
 					    ${mssg}
@@ -190,7 +190,7 @@
 				  <tbody>
 				    <tr>
 				      <td scope="row">
-				      	<a href="../view-compensation-month/24">
+				      	<a href="../view-compensation-month/${employee.id}">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>

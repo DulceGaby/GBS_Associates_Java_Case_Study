@@ -55,5 +55,13 @@ public class CompensationImpl implements CompensationDao {
 		return 1;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Compensation> compensationsEmployee(int idEmployee) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Compensation.class);
+	    criteria.add(Restrictions.eq("idEmployee", idEmployee));
+	    return (List<Compensation>) getHibernateTemplate().findByCriteria(criteria);
+	}
+
 
 }

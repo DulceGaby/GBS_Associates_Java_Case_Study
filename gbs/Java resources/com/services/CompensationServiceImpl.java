@@ -42,5 +42,10 @@ public class CompensationServiceImpl implements CompensationService {
 		return dao.edit(compensation, id);
 	}
 
+	@Override
+	public List<Compensation> getCompensationsEmployee(int idEmployee) {
+		return dao.compensationsEmployee(idEmployee);
+	}
+
 
 }
