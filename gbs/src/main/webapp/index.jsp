@@ -208,6 +208,7 @@
 	    </div>
 	    <div class="col col-form">
 	    	<div class="p-5 col-12">
+	    		<img src="https://raw.githubusercontent.com/DulceGaby/GBS_Associates_Java_Case_Study/main/logo1.png?token=GHSAT0AAAAAABU4CMDX64QFKRE6LV7M2WEYYUMGTWQ">
 		    	<p id="title">Employment System</p>
 		    	<p id="subtitle">Java Case Study</p>
 		    	<p id="login-text">LOGIN</p>
