@@ -15,12 +15,17 @@
 		
 		<script>
 		$(document).ready(function(){
+			$("#history-form").ready(function(){
+				$(':input[type="submit"]').prop('disabled', true);
+			});
+			
 			$("#start-date").change(function(){
 				var startDate = $("#start-date").val();
 				
 				var endDate = $("#end-date").val();
 				
 				if(endDate != "" && startDate != ""){
+					$(':input[type="submit"]').prop('disabled', false);
 					var start = Date.parse(startDate);
 					var end = Date.parse(endDate);
 					var difference= (end-start);
@@ -30,12 +35,16 @@
 					else
 						$("#help").css("display", "none");
 				}
+				else{
+					$(':input[type="submit"]').prop('disabled', true);
+				}
 			});
 			
 			$("#end-date").change(function(){
 				var startDate = $("#start-date").val();
 				var endDate = $("#end-date").val();
 				if(startDate != "" && endDate != ""){
+					$(':input[type="submit"]').prop('disabled', false);
 					var start = Date.parse(startDate);
 					var end = Date.parse(endDate);
 					var difference= (end-start);
@@ -44,6 +53,9 @@
 						$("#help").css("display", "block");
 					else
 						$("#help").css("display", "none");
+				}
+				else{
+					$(':input[type="submit"]').prop('disabled', true);
 				}
 			});
 			
