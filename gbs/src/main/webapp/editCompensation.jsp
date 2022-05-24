@@ -115,7 +115,7 @@
 	
 		<nav class="navbar navbar-expand-lg" style="background-color:#a7bee4">
 		  <div class="container-fluid">
-		  	<img class="img-header" src="https://raw.githubusercontent.com/DulceGaby/GBS_Associates_Java_Case_Study/main/Imagen2.png?token=GHSAT0AAAAAABU4CMDXP47W7YA7Y534HPVUYUMGMGA">
+		  	<img class="img-header" src="https://scontent.fmlm1-1.fna.fbcdn.net/v/t39.30808-6/279466520_5382950738396062_8478591622979059030_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=jngfCEj-eLAAX_Rvo1V&tn=b3RjrRajcpxP3Htu&_nc_ht=scontent.fmlm1-1.fna&oh=00_AT9Kfv3LFp9TURA3RS5IktiSOfuKA8nFjgZS-RZwBg1yhw&oe=62908D0D">
 		
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
