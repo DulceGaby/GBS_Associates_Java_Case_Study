@@ -1,7 +1,9 @@
 package com.dispatcher;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +62,117 @@ public class CompensationController {
 		 model.addAttribute("compensation", compensation);
 		 model.addAttribute("employee", employee);
 		 return "../editCompensation";	
+	}
+	
+	@RequestMapping(value = "/view-compensation-month-search/{id}", method = RequestMethod.GET)
+	 public String viewCompensationSearch(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) throws ParseException {
+		List<Compensation> compensations = cservice.getCompensationsEmployee(id);
+		boolean records = compensations.isEmpty();
+		Employee employee = service.viewEmployee(id);
+		String mssg="", recordDate, recordYear, recordMonth;
+		List<CompensationOrg> compensationsMonth = new ArrayList<>();
+		
+		int monthStart=0, monthEnd=0, yearStart=0, yearEnd=0;
+		//START DATE
+		if(!request.getParameter("start-date").equals("")) {
+			if(request.getParameter("start-date").substring(5,7).charAt(0) == '0')
+				monthStart = Integer.parseInt(request.getParameter("start-date").substring(6,7));
+			else
+				monthStart = Integer.parseInt(request.getParameter("start-date").substring(5,7));
+			
+				yearStart = Integer.parseInt(request.getParameter("start-date").substring(0,4));
+		}
+		//END DATE
+		if(!request.getParameter("end-date").equals("")) {
+			if(request.getParameter("end-date").substring(5,7).charAt(0) == '0')
+				monthEnd = Integer.parseInt(request.getParameter("end-date").substring(6,7));
+			else
+				monthEnd = Integer.parseInt(request.getParameter("end-date").substring(5,7));
+			
+				yearEnd = Integer.parseInt(request.getParameter("end-date").substring(0,4));
+		}  
+		if(records == true) {
+			mssg="0 results found";
+			model.addAttribute("mssg", mssg);
+		}
+		else {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date dateStart = formatter.parse(yearStart+"-"+monthStart+"-"+"01");
+			Date dateEnd = formatter.parse(yearEnd+"-"+monthEnd+"-"+"01");
+			//Group by month and year
+			for (Compensation comp : compensations) {
+				recordDate = comp.getDate();
+				recordYear = recordDate.substring(0,4);
+				recordMonth = recordDate.substring(5,7);
+				Date recordDateN = formatter.parse(recordYear+"-"+(recordMonth)+"-"+"01");
+					
+				//Case 0
+				if(compensationsMonth.isEmpty() == true) {
+					boolean initial = false;
+					
+					if(monthStart != 0 && yearStart !=0 && monthEnd == 0 && yearEnd == 0) {
+						if(recordDateN.after(dateStart) == true)
+							initial = true;
+					}
+					else if(monthStart == 0 && yearStart ==0 && monthEnd != 0 && yearEnd != 0) {
+						if(recordDateN.before(dateEnd) == true)
+							initial = true;
+					}
+					else {
+						if(yearStart ==  yearEnd) {
+							if((Integer.parseInt(recordMonth) >= monthStart) && (Integer.parseInt(recordYear) == yearStart) && (Integer.parseInt(recordMonth) <= monthEnd)) {
+								initial = true;
+							}
+						}
+						else {
+							if(recordDateN.after(dateStart) && recordDateN.before(dateEnd) == true)
+								initial = true;
+						}
+					}
+						
+					
+					if(initial == true)		
+						compensationsMonth.add(new CompensationOrg(recordMonth, monthText(recordMonth), recordYear, comp.getAmount()));
+				}
+				else {
+					boolean add = false;
+					for (CompensationOrg compensationOrg : compensationsMonth) {
+						if(compensationOrg.getMonth().equals(recordMonth) && compensationOrg.getYear().equals(recordYear)) {
+							compensationOrg.setAmount(compensationOrg.getAmount() + comp.getAmount());
+						}
+						else {
+							if(monthStart != 0 && yearStart !=0 && monthEnd == 0 && yearEnd == 0) {
+								if(recordDateN.after(dateStart) == true)
+									add = true;
+							}
+							else if(monthStart == 0 && yearStart ==0 && monthEnd != 0 && yearEnd != 0) {
+								if(recordDateN.before(dateEnd) == true)
+									add = true;
+							}
+							else {
+								if(yearStart ==  yearEnd) {
+									if((Integer.parseInt(recordMonth) >= monthStart) && (Integer.parseInt(recordYear) == yearStart) && (Integer.parseInt(recordMonth) <= monthEnd)) {
+										add = true;
+									}
+								}
+								else {
+									if(recordDateN.after(dateStart) && recordDateN.before(dateEnd) == true)
+										add = true;
+								}
+							}
+						}
+					}
+					if(add == true)
+						//Adding the new info
+						compensationsMonth.add(new CompensationOrg(recordMonth, monthText(recordMonth), recordYear, comp.getAmount()));
+					}					
+			  	}
+			    model.addAttribute("compensations", compensationsMonth);
+			    model.addAttribute("start", request.getParameter("start-date"));
+			    model.addAttribute("end", request.getParameter("end-date"));
+		  }
+		  model.addAttribute("employee", employee);
+		  return "../compensationHistory";
 	}
 	
 	@RequestMapping(value = "/view-compensation/{id}")
@@ -324,7 +437,7 @@ public class CompensationController {
 				cservice.update(compensation, id);
 				mv.setViewName("search");	
 				mv.addObject("employees",employees);
-				mv.addObject("mssg","The compensation was added successfully!");
+				mv.addObject("mssg","The compensation was edited successfully!");
 				
 			}catch(Exception e) {
 				

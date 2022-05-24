@@ -153,18 +153,18 @@
 			<div class="card">
 			  <div class="card-body">
 			    
-			    <form id="history-form">
+			    <form action="../view-compensation-month-search/${employee.id}" id="history-form">
 				    <div class="row mb-4 form-search">
 				    	
 				    	<div class="col-2">
 				    		<div class="form-floating">
-							  <input type="date" class="form-control" id="start-date" name="start-date">
+							  <input type="date" class="form-control" id="start-date" name="start-date" value=${start}>
 							  <label for="date">Start date</label>
 							</div>
 				    	</div>
 				    	<div class="col-2">
 				    		<div class="form-floating">
-							  <input type="date" class="form-control" id="end-date" name="end-date">
+							  <input type="date" class="form-control" id="end-date" name="end-date" value=${end}>
 							  <label for="end-date">End date</label>
 							</div>
 				    	</div>
