@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,8 +9,104 @@
 			    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			    crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<meta charset="ISO-8859-1">
 		<title>Add compensation</title>
+		
+		<script>
+			$(document).ready(function(){
+				$("#typeInput").ready(function(){
+					if($('#typeInput').val() == 'Salary'){
+						$('#descriptionInput').prop('required',false);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp").css("display", "none");
+						$("#amountHelp2").css("display", "none");
+					}
+					else if($('#typeInput').val() == 'Bonus' || $('#typeInput').val() == 'Commission' || $('#typeInput').val() == 'Allowance'){
+						$('#descriptionInput').prop('required',true);
+						$("#amountInput").attr({"min" : 1});
+						$("#amountHelp").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount <= 0){
+							$("#amountHelp2").css("display", "block");
+						}
+						else
+							$("#amountHelp2").css("display", "none");
+					}
+					else{
+						$('#descriptionInput').prop('required',true);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp2").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount == 0){
+							$("#amountHelp").css("display", "block");
+						}
+						else
+							$("#amountHelp").css("display", "none");
+					}
+				});
+				$("#typeInput").change(function(){
+					if($('#typeInput').val() == 'Salary'){
+						$('#descriptionInput').prop('required',false);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp").css("display", "none");
+						$("#amountHelp2").css("display", "none");
+					}
+					else if($('#typeInput').val() == 'Bonus' || $('#typeInput').val() == 'Commission' || $('#typeInput').val() == 'Allowance'){
+						$('#descriptionInput').prop('required',true);
+						$("#amountInput").attr({"min" : 1});
+						$("#amountHelp").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount <= 0){
+							$("#amountHelp2").css("display", "block");
+						}
+						else
+							$("#amountHelp2").css("display", "none");
+					}
+					else{
+						$('#descriptionInput').prop('required',true);
+						$("#amountInput").attr({"min" : "none"});
+						$("#amountHelp2").css("display", "none");
+						var amount = $("#amountInput").val();
+						if(amount == 0){
+							$("#amountHelp").css("display", "block");
+						}
+						else
+							$("#amountHelp").css("display", "none");
+					}
+				});
+				
+				$("#amountInput").change(function(){
+					var amount = $("#amountInput").val();
+					if(amount == 0 && $('#typeInput').val() == 'Adjustment'){
+						$("#amountHelp").css("display", "block");
+						$("#amountHelp2").css("display", "none");
+					}
+					else if(amount <= 0 && $('#typeInput').val() != 'Adjustment'){
+						if($('#typeInput').val() == 'Bonus' || $('#typeInput').val() == 'Commission' || $('#typeInput').val() == 'Allowance'){
+							$("#amountHelp2").css("display", "block");
+							$("#amountHelp").css("display", "none");
+						}
+					}
+					else{
+						$("#amountHelp").css("display", "none");
+						$("#amountHelp2").css("display", "none");
+					}
+				});
+				
+				
+				$("#add-compensation").change(function(){
+					if($('#amountHelp').css('display') == 'block' || $('#amountHelp2').css('display') == 'block')
+					{
+						$(':input[type="submit"]').prop('disabled', true);
+					}
+					else{
+						$(':input[type="submit"]').prop('disabled', false);
+					}
+				});
+			});
+		</script>
+		
 	</head>
 	<style>
 		.img-header{
@@ -41,6 +138,12 @@
 			font-weight:500;
 			margin-bottom:30px !important;
 		}
+		.form-text{
+			color:#dc3545;
+		}
+		textarea{
+			resize:none;
+		}
 	</style>
 	<body>
 	
@@ -51,13 +154,13 @@
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		        <li class="nav-item">
-		          <a class="nav-link active text-op-header" aria-current="page" href="add-employee">Add Employee</a>
+		          <a class="nav-link active text-op-header" aria-current="page" href="/gbs/add-employee">Add Employee</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="search">Search Employees</a>
+		          <a class="nav-link text-op-header" href="/gbs/search">Search Employees</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="add-compensation">Add Compensation</a>
+		          <a class="nav-link text-op-header" href="/gbs/add-compensation">Add Compensation</a>
 		        </li>
 		      </ul>
 		    </div>
@@ -65,8 +168,7 @@
 		</nav>
 		
 		<div class="p-5" style="margin-bottom:297px">
-			<p id="title-page">Add Employee Compensation Details Result is : <%= request.getAttribute("result") %>
-				Also is : ${result}</p>
+			<p id="title-page">Add Employee Compensation</p>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 				  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -74,35 +176,56 @@
 				  </symbol>
 				</svg>			
 				
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				  <div style="display:flex; align-items:center">
-				  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-				    There is an error adding the new employee
-				  </div>
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
+				<%
+			        if(request.getAttribute("mssg") != null)  {
+			    %>            
+			        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
+					  <div style="display:flex; align-items:center">
+					  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					    ${mssg}
+					  </div>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+			    <%
+			        } 
+			    %>
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form>
+			    <form action="addCompensation" id="add-compensation" method="post">
+			    	<div class="row">
+			    		<div class="col">
+			    			<div class="mb-3">
+							    <label for="typeInput" class="form-label">Employee *</label>
+							    <select class="form-select" id="employeeInput" name="idEmployee" required>
+							      <option selected readonly="readonly" hidden value=${employee.id}>${employee.firstName} ${employee.middleName} ${employee.lastName}: ${employee.birthDate}</option>
+								  <c:forEach items="${employees}" var="employee">
+									  <option value=${employee.id} >${employee.firstName} ${employee.middleName} ${employee.lastName}: ${employee.birthDate}</option>
+								  </c:forEach>
+								</select>
+				  			</div>
+			    		</div>
+			    	</div>
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="typeInput" class="form-label">Type *</label>
 							    <select class="form-select" id="typeInput" name="type" required>
-								  <option selected>Salary</option>
-								  <option value="1">Bonus</option>
-								  <option value="2">Commission </option>
-								  <option value="3">Allowance</option>
-								  <option value="3">Adjustment</option>
+							    	  <option selected readonly="readonly" hidden>${compensation.type}</option>
+									  <option value ="Salary">Salary</option>
+									  <option value="Bonus">Bonus</option>
+									  <option value="Commission">Commission </option>
+									  <option value="Allowance">Allowance</option>
+									  <option value="Adjustment">Adjustment</option>
 								</select>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="amountInput" class="form-label">Amount *</label>
-							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp" min="0">
-				    			<div id="amountHelp" class="form-text">Text for help.</div>
+							    <input type="number" name="amount" class="form-control" id="amountInput" required aria-describedby="amountHelp" step="0.01" value=${compensation.amount}>
+							     <div id="amountHelp" class="form-text" style="display:none">Amount can be any value except zero.</div>
+							     <div id="amountHelp2" class="form-text" style="display:none">Amount should be greater than zero.</div>
 				  			</div>
 			    		</div>
 			    	</div>
@@ -110,19 +233,16 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="descriptionInput" class="form-label">Description</label>
-							    <input type="text" name="description" class="form-control" id="descriptionInput" aria-describedby="descriptionHelp">
+							    <textarea type="text" name="description" class="form-control" id="descriptionInput">${compensation.description}</textarea>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="dateInput" class="form-label">Date *</label>
-							    <input type="date" name="date" class="form-control" id="dateInput" required aria-describedby="dateHelp">
-							    <div id="dateHelp" class="form-text">Text for help.</div>
+							    <input type="date" name="date" class="form-control" id="dateInput" required aria-describedby="dateHelp" value=${compensation.date}>
 				  			</div>
 			    		</div>
 			    	</div>
-			    	
-			    	
 			    	
 				  <a href="#" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
 				  <button type="submit" class="btn btn-primary btn-form mt-3 mb-3">Submit</button>

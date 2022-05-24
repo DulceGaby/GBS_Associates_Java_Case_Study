@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,8 +9,42 @@
 			    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			    crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<meta charset="ISO-8859-1">
 		<title>Search employees</title>
+		
+		<script>
+			$(document).ready(function(){
+				$("#search-form").ready(function(){
+					$(':input[type="submit"]').prop('disabled', true);
+				});
+				$("#firstName").change(function(){
+					if(($("#firstName").val() == '') && ($("#lastName").val() == '') && ($("#position").val() == '') ){
+						$(':input[type="submit"]').prop('disabled', true);
+				    }
+					else{
+						$(':input[type="submit"]').prop('disabled', false);
+					}
+				});
+				$("#lastName").change(function(){
+					if(($("#firstName").val() == '') && ($("#lastName").val() == '') && ($("#position").val() == '') ){
+						$(':input[type="submit"]').prop('disabled', true);
+				    }
+					else{
+						$(':input[type="submit"]').prop('disabled', false);
+					}
+				});
+				$("#position").change(function(){
+					if(($("#firstName").val() == '') && ($("#lastName").val() == '') && ($("#position").val() == '') ){
+						$(':input[type="submit"]').prop('disabled', true);
+				    }
+					else{
+						$(':input[type="submit"]').prop('disabled', false);
+					}
+				});
+			});
+		</script>
+		
 	</head>
 	<style>
 		.img-header{
@@ -47,7 +82,6 @@
 		.form-search{
 			display:flex;
 			align-items:center;
-			justify-content:flex-end;
 		}
 	</style>
 	<body>
@@ -76,18 +110,38 @@
 			<p id="title-page">Search Employees</p>
 			
 			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-				  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-				    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+				   <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+				    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
 				  </symbol>
 			</svg>			
 				
 			<%
 		        if(request.getAttribute("mssg") != null)  {
 		    %>            
-		        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
+		        <div class="alert alert-success alert-dismissible fade show" role="alert"  id="alert">
+				  <div style="display:flex; align-items:center">
+				  	 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+				    ${mssg}
+				  </div>
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+		    <%
+		        } 
+		    %>
+		    
+		    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+			  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+			    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+			  </symbol>
+			</svg>			
+			
+			<%
+		        if(request.getAttribute("mssg2") != null)  {
+		    %>            
+		        <div class="alert alert-warning alert-dismissible fade show" role="alert"  id="alert">
 				  <div style="display:flex; align-items:center">
 				  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-				    ${mssg}
+				    ${mssg2}
 				  </div>
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
@@ -98,17 +152,34 @@
 			<div class="card">
 			  <div class="card-body">
 			    
-			    <form>
+			    <form action="search-filter" id="search-form" method="get">
 				    <div class="row mb-4 form-search">
-				    	
-				    	<div class="col-10">
+				    	<div class="col-2">
 				    		<div class="form-floating">
-							  <input type="text" class="form-control" id="floatingInput1" name="search">
-							  <label for="floatingInput1">Search</label>
+							  <input type="text" class="form-control" id="firstName" name="firstName" value=${firstName}>
+							  <label for="floatingInput1">First Name</label>
 							</div>
 				    	</div>
-				    	<div class="col-1" style="display:flex;justify-content:flex-end">
-				    		<a href="#" class="link-dark" style="margin-right:15px; text-decoration:none">Clear</a>
+				    	<div class="col-2">
+				    		<div class="form-floating">
+							  <input type="text" class="form-control" id="lastName" name="lastName" value=${lastName}>
+							  <label for="floatingInput1">Last Name</label>
+							</div>
+				    	</div>
+				    	<div class="col-2">
+				    		<div class="form-floating">
+							  
+							  <select class="form-select" id="position" name="position" value=${position}>
+							      <option selected readonly="readonly" hidden>${position}</option>
+								  <option value="Part-time">Part-time</option>
+								  <option value="Full-time">Full-time</option>
+								  <option value="Seasonal">Seasonal </option>
+							  </select>
+							  <label for="floatingSelect">Position</label>
+							</div>
+				    	</div>
+				    	<div class="col-1" style="display:flex;justify-content:flex-end; align-items:center;">
+				    		<a href="/gbs/search" id="clear" class="link-dark" style="margin-right:15px; text-decoration:none; cursor:pointer">Clear</a>
 				    	</div>
 				    	<div class="col-1">
 				    		<button type="submit" class="btn btn-primary btn-form">Search</button>
@@ -121,62 +192,38 @@
 				  <thead>
 				    <tr>
 				      <th scope="col"></th>
-				      <th scope="col">UID</th>
+				      <th scope="col">ID</th>
 				      <th scope="col">First Name</th>
+				      <th scope="col">Middle Name</th>
 				      <th scope="col">Last Name</th>
+				      <th scope="col">BirthDate</th>
 				      <th scope="col">Position</th>
 				      <th scope="col">Compensation</th>
 				    </tr>
 				  </thead>
 				  <tbody>
+				  
+				  <c:forEach items="${employees}" var="employee">
 				    <tr>
 				      <td scope="row">
-				      	<a href="#">
+				      	<a href="employee/${employee.id}">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
 						</a>
 				      </td>
-				      <td>89614</td>
-				      <td>Jonh</td>
-				      <td>Smith</td>
-				      <td>Sales</td>
+				      <td>${employee.id}</td>
+				      <td>${employee.firstName}</td>
+				      <td>${employee.middleName}</td>
+				      <td>${employee.lastName}</td>
+				      <td>${employee.birthDate}</td>
+				      <td>${employee.position}</td>
 				      <td scope="row">
-				      	<a href="#">
+				      	<a href="view-compensation/${employee.id}">
 					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
 						</a>
 				      </td>
 				    </tr>
-				    <tr>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
-						</a>
-				      </td>
-				      <td>89614</td>
-				      <td>Jonh</td>
-				      <td>Smith</td>
-				      <td>Sales</td>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
-						</a>
-				      </td>
-				    </tr>
-				    <tr>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW</button>
-						</a>
-				      </td>
-				      <td>89614</td>
-				      <td>Jonh</td>
-				      <td>Smith</td>
-				      <td>Sales</td>
-				      <td scope="row">
-				      	<a href="#">
-					      	<button type="button" class="btn btn-primary btn-form font-10">VIEW HISTORY</button>
-						</a>
-				      </td>
-				    </tr>
+				  </c:forEach>
+				    
 				  </tbody>
 				</table>
 			  </div>

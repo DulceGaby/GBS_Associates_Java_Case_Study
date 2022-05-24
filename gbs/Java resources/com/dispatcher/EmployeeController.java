@@ -1,79 +1,229 @@
 package com.dispatcher;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.dto.Employee;
+import com.services.EmployeeService;
 
 
 @Controller
 public class EmployeeController {
 	
-	@RequestMapping("/add-employee")
-	public ModelAndView addEmployee(HttpServletRequest request, HttpServletResponse responde) {
-		 ModelAndView mv = new ModelAndView();
-		 mv.setViewName("home.jsp");	
-		 return mv;
-	}
+	@Autowired
+	private EmployeeService service;
 	
-	@RequestMapping("/add-compensation")
-	public ModelAndView addCompensation(HttpServletRequest request, HttpServletResponse responde) {
-		 ModelAndView mv = new ModelAndView();
-		 mv.setViewName("addCompensation.jsp");	
-		 return mv;
+	public EmployeeService getService() {
+		return service;
+	}
+
+	public void setService(EmployeeService service) {
+		this.service = service;
+	}
+
+	@RequestMapping("/add-employee")
+	public String addEmployee() {
+		 return "home";
 	}
 	
 	@RequestMapping("/search")
-	public ModelAndView employees(HttpServletRequest request, HttpServletResponse responde) {
-		 ModelAndView mv = new ModelAndView();
-		 mv.setViewName("search.jsp");	
-		 return mv;
+	public String employees(ModelMap model) {
+		 List<Employee> employees = service.getEmployees();
+		 model.addAttribute("employees", employees);
+		 return "search";	
 	}
 	
-	@RequestMapping("/addEmployee")
-	public ModelAndView addEmployeeStore(HttpServletRequest request, HttpServletResponse responde) {
-		System.out.println("ESTOY EN EL CONTROLADOR DE EMPLOYEE");
-		String message ="";
-		String firstName = request.getParameter("firstName");
-		String middleName = request.getParameter("middleName");
-		String lastName = request.getParameter("lastName");
-		String birthDate = request.getParameter("birthDate");
-		String position = request.getParameter("position");
-//		
-//		// Check if it is a correct email
-//        Pattern pattern = Pattern
-//                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-//                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-// 
-//        Matcher mather = pattern.matcher(email);
-// 
-//        if (mather.find() == false) {
-//        	message ="The email entered is invalid.";
-//            System.out.println("The email entered is invalid.");
-//        } 
-//        if(!password.equals("IBM2022")) {
-//        	message += " Incorrect password.";
-//        	System.out.println("Incorrect password.");
-//        } 
-//        
-        ModelAndView mv = new ModelAndView();
-//        
-//        //If there are problems in the form, it will be redirected to the login again, with a message
-//        if(message!="") {
-//        	System.out.println("There is a message");
-//        	mv.setViewName("index.jsp");
-//        	mv.addObject("mssg",message);
-//        	mv.addObject("emailE",email);
-//        	return mv;
-//        }
-//		
-//        If everything it's ok, then redirect to the search view with the successfull mssg
+	@RequestMapping("/search-filter")
+	public String employeesSearch(ModelMap model, HttpServletRequest request) {
+
+		String firstName = request.getParameter("firstName"); 
+		String lastName = request.getParameter("lastName"); 
+		String position = request.getParameter("position"); 
+		
+		List<Employee> employees = service.filterEmployees(firstName, lastName, position);
+		boolean records = employees.isEmpty();
+		String mssg2 = "0 results found";
+		
+		if(records == true) {
+			model.addAttribute("mssg2", mssg2);
+		}	
+		
+		model.addAttribute("employees", employees);
+		model.addAttribute("firstName", firstName);
+		model.addAttribute("lastName", lastName);
+		model.addAttribute("position", position);
+		
+		return "search";	
+	}
+	
+
+	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
+	 public String viewEmployee(@PathVariable("id") int id, ModelMap model) {
+		  Employee employee = service.viewEmployee(id);
+		  model.addAttribute("employee", employee);
+		  return "../editEmployee";
+	}
+		
+	public boolean dateValidation(String birthDate) throws ParseException {
+		
+		boolean validation = true;
+		
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date newDate = formatter.parse(birthDate);
+		
+		//Getting the rest
+		long diff = date.getTime() - newDate.getTime();
+        TimeUnit time = TimeUnit.DAYS; 
+        long days = time.convert(diff, TimeUnit.MILLISECONDS);
         
-		mv.setViewName("search.jsp");	
-		mv.addObject("mssg","The employee was added successfully !");
-		return mv;
+        if(days <6570) {
+        	validation = false;
+        }
+		
+		return validation;
+	}
+	
+	@RequestMapping(value="/addEmployee", method=RequestMethod.POST)
+	public ModelAndView addEmployeeStore(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
+		
+		//Back-end validation
+		//Request
+        String firstName = request.getParameter("firstName");
+        String middleName = request.getParameter("middleName");
+        String lastName = request.getParameter("lastName");
+        String birthDate = request.getParameter("birthDate");
+        
+		boolean validation = true;
+		String mssg="";
+		
+		//DATE VALIDATION
+		validation = dateValidation(birthDate);
+		if(validation == false)
+			mssg = "Birth date should not be later than current date and must comply with legal validation. ";
+		
+        //EMPLOYEE VALIDATION
+		
+		ModelAndView mv = new ModelAndView();
+		
+		//Searching the database
+		try {
+			Employee oldEmployee = service.getEmployee(firstName, middleName, lastName, birthDate);
+	        
+	        if(oldEmployee != null) {
+				mssg +="Employee "+firstName+" "+middleName+" "+lastName+" with date of birth: "+birthDate + " already exists.";
+				validation = false;
+			}  
+		} catch (Exception e) {
+			mv.setViewName("home");	
+			mv.addObject("employee",employee);
+			mv.addObject("mssg","Something went wrong please try again");
+			return mv;
+		}
+		
+		if(validation == true) {
+			try {
+				service.save(employee);				
+				List<Employee> employees = service.getEmployees();
+				
+				mv.setViewName("search");	
+				mv.addObject("employees",employees);
+				mv.addObject("mssg","The employee was added successfully !");
+				return mv;
+			}catch(Exception e) {
+				mv.setViewName("home");	
+				mv.addObject("employee",employee);
+				mv.addObject("mssg","Something went wrong please try again");
+				return mv;
+			}			
+		}
+		else {
+			mv.setViewName("home");	
+			mv.addObject("mssg",mssg);
+			//Re-sending data for inputs to re write
+			mv.addObject("employee",employee);
+			return mv;
+		}
+	}
+
+
+	@RequestMapping(value="/editEmployee", method=RequestMethod.POST)
+	public ModelAndView editEmployee(@ModelAttribute("employee") Employee employee, HttpServletRequest request) throws ParseException {
+		
+		//Back-end validation
+		//Request
+		int id = Integer.parseInt(request.getParameter("id"));
+        String firstName = request.getParameter("firstName");
+        String middleName = request.getParameter("middleName");
+        String lastName = request.getParameter("lastName");
+        String birthDate = request.getParameter("birthDate");
+        
+		boolean validation = true;
+		String mssg="";
+		
+		//DATE VALIDATION
+		validation = dateValidation(birthDate);
+		if(validation == false)
+			mssg = "Birth date should not be later than current date and must comply with legal validation. ";
+		
+        //EMPLOYEE VALIDATION
+		
+		ModelAndView mv = new ModelAndView();
+		
+		//Searching the database
+		try {
+			Employee oldEmployee = service.getEmployee(firstName, middleName, lastName, birthDate);
+	        
+	        if(oldEmployee != null && oldEmployee.getId() != id) {
+				mssg +="Employee "+firstName+" "+middleName+" "+lastName+" with date of birth: "+birthDate + " already exists.";
+				validation = false;
+			}  
+		} catch (Exception e) {
+			mv.setViewName("editEmployee");	
+			mv.addObject("employee",employee);
+			mv.addObject("mssg","Something went wrong please try again");
+			return mv;
+		}
+				
+		
+		if(validation == true) {
+			try {
+				service.update(employee,id);				
+				List<Employee> employees = service.getEmployees();
+				
+				mv.setViewName("search");	
+				mv.addObject("employees",employees);
+				mv.addObject("mssg","The employee was edited successfully !");
+				return mv;
+			}catch(Exception e) {
+				mv.setViewName("editEmployee");	
+				mv.addObject("employee",employee);
+				mv.addObject("mssg","Something went wrong please try again");
+				return mv;
+			}			
+		}
+		else {
+			mv.setViewName("editEmployee");	
+			mv.addObject("mssg",mssg);
+			//Re-sending data
+			mv.addObject("employee",employee);
+			return mv;
+		}
 	}
 }
 

@@ -8,8 +8,55 @@
 			    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			    crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<meta charset="ISO-8859-1">
-		<title>Home</title>
+		<title>Edit employee</title>
+		
+		<script>
+			$(document).ready(function(){
+				$("#birthDateInput").change(function(){
+					
+					var dateInput = $("#birthDateInput").val();
+					var newDate = Date.parse(dateInput);
+					var date = new Date();
+					
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+
+					if(month < 10)
+						month = '0'+month;
+					if(day < 10)
+						day = '0'+day;
+
+					currentDate = year+'-'+month+'-'+day;
+					currentDate = Date.parse(currentDate);
+					
+					var difference= Math.abs(currentDate-newDate);
+					days = difference/(1000 * 3600 * 24);
+					
+					if(days<6570){
+						$("#birthDateHelp").css("display", "block");
+						$("#birthDateInput").focus();
+					}
+					else{
+						flag=false;
+						$("#birthDateHelp").css("display", "none");
+					}
+				});
+				
+				$("#add-employee").change(function(){
+					if($('#birthDateHelp').css('display') == 'block')
+					{
+						$(':input[type="submit"]').prop('disabled', true);
+					}
+					else{
+						$(':input[type="submit"]').prop('disabled', false);
+					}
+				});
+			});
+		</script>
+		
 	</head>
 	<style>
 		.img-header{
@@ -51,13 +98,13 @@
 		    <div class="collapse navbar-collapse" id="navbarText">
 		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		        <li class="nav-item">
-		          <a class="nav-link active text-op-header" aria-current="page" href="add-employee">Add Employee</a>
+		          <a class="nav-link active text-op-header" aria-current="page" href="/gbs/add-employee">Add Employee</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="search">Search Employees</a>
+		          <a class="nav-link text-op-header" href="/gbs/search">Search Employees</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link text-op-header" href="add-compensation">Add Compensation</a>
+		          <a class="nav-link text-op-header" href="/gbs/add-compensation">Add Compensation</a>
 		        </li>
 		      </ul>
 		    </div>
@@ -66,13 +113,12 @@
 		
 		<div class="p-5" style="margin-bottom:211px">
 			<div style="display:flex; align-items:center">
-				<a href="#">
+				<a href="/gbs/search">
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16" style="margin:0px 10px 24px 0px; color:#1a2841">
 					  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
 					</svg>
 				</a>
-				<p id="title-page">Edit Employee Result is : <%= request.getAttribute("result") %>
-					Also is : ${result}</p>
+				<p id="title-page">Edit Employee ${employee.id}</p>
 			</div>
 			
 				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -81,30 +127,35 @@
 				  </symbol>
 				</svg>			
 				
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				  <div style="display:flex; align-items:center">
-				  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-				    There is an error adding the new employee
-				  </div>
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
+				<%
+			        if(request.getAttribute("mssg") != null)  {
+			    %>            
+			        <div class="alert alert-primary alert-dismissible fade show" role="alert"  id="alert">
+					  <div style="display:flex; align-items:center">
+					  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					    ${mssg}
+					  </div>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+			    <%
+			        } 
+			    %>
 			
 			<div class="card">
 			  <div class="card-body">
-			    <form>
+			    <form action="../editEmployee" method="post" id="add-employee">
 			    	<div class="row">
 			    		<div class="col">
 			    			<div class="mb-3">
-							    <label for="uidInput" class="form-label">UID *</label>
-							    <input type="text" value=${result} name="uid" class="form-control" id="uidInput" aria-describedby="uidHelp" disabled>
-				    			<div id="uidHelp" class="form-text">UID cannot be edited.</div>
+							    <label for="uidInput" class="form-label">ID *</label>
+							    <input type="text" value=${employee.id} name="id" class="form-control" id="idInput" aria-describedby="idHelp" readonly="readonly">
+				    			<div id="idHelp" class="form-text">ID cannot be edited.</div>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="firstNameInput" class="form-label">First Name *</label>
-							    <input type="text" name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
-				    			<div id="firstNameHelp" class="form-text">Text for help.</div>
+							    <input type="text" value=${employee.firstName} name="firstName" class="form-control" id="firstNameInput" required aria-describedby="firstNameHelp">
 				  			</div>
 			    		</div>
 			    	</div>
@@ -112,14 +163,13 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="middleNameInput" class="form-label">Middle Name</label>
-							    <input type="text" name="middleName" class="form-control" id="middleNameInput" aria-describedby="middleNameHelp">
+							    <input type="text" name="middleName" class="form-control" id="middleNameInput" aria-describedby="middleNameHelp" value=${employee.middleName}>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="lastNameInput" class="form-label">Last Name *</label>
-							    <input type="text" name="lastName" class="form-control" id="lastNameInput" required aria-describedby="lastNameHelp">
-				    			<div id="lastNameHelp" class="form-text">Text for help.</div>
+							    <input type="text" value=${employee.lastName} name="lastName" class="form-control" id="lastNameInput" required aria-describedby="lastNameHelp">
 				  			</div>
 			    		</div>
 			    	</div>
@@ -128,24 +178,24 @@
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="birthDateInput" class="form-label">Birth Date *</label>
-							    <input type="date" name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp">
-							    <div id="birthDateHelp" class="form-text">Text for help.</div>
+							    <input type="date" value=${employee.birthDate} name="birthDate" class="form-control" id="birthDateInput" required aria-describedby="birthDateHelp">
+							    <div id="birthDateHelp" class="form-text" style="display:none; color:#dc3545">Birth date should not be later than current date and must comply with legal validation.</div>
 				  			</div>
 			    		</div>
 			    		<div class="col">
 			    			<div class="mb-3">
 							    <label for="positionInput" class="form-label">Position *</label>
 							    <select class="form-select" id="positionInput" name="position" required>
-								  <option selected>Part-time</option>
-								  <option value="1">Full-time</option>
-								  <option value="2">Seasonal </option>
-								  <option value="3">Admin</option>
+								  <option selected readonly="readonly" hidden>${employee.position}</option>
+								  <option value="Part-time">Part-time</option>
+								  <option value="Full-time">Full-time</option>
+								  <option value="Seasonal">Seasonal </option>
 								</select>
 				  			</div>
 			    		</div>
 			    	</div>
 			    	
-				  <a href="#" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
+				  <a href="/gbs/search" class="link-dark" style="margin-right:15px; text-decoration:none">Cancel</a>
 				  <button type="submit" class="btn btn-primary btn-form mt-3 mb-3">Submit</button>
 				</form>
 			  </div>
